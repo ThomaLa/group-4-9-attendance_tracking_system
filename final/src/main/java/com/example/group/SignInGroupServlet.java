@@ -15,7 +15,7 @@
  */
 
 //[START all]
-package com.example.guestbook;
+package com.example.group;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;

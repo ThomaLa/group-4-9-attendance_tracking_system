@@ -15,7 +15,7 @@
  */
 
 //[START all]
-package com.example.guestbook;
+package com.example.group;
 
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.annotation.Entity;

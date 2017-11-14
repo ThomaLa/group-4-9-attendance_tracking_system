@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 //[START all]
-package com.example.guestbook;
+package com.example.group;
 
 import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyFactory;
