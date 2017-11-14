@@ -47,22 +47,21 @@ public class SignGuestbookServlet extends HttpServlet {
   // Process the http POST of the form
   @Override
   public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-    Greeting greeting;
+    Inscription inscription;
 
     UserService userService = UserServiceFactory.getUserService();
     User user = userService.getCurrentUser();  // Find out who the user is.
 
     String groupName = req.getParameter("groupName");
-    String content = req.getParameter("content");
     if (user != null) {
-      greeting = new Greeting(groupName, content, user.getUserId(), user.getEmail());
+    	inscription = new Inscription(groupName, user.getUserId(), user.getEmail());
     } else {
-      greeting = new Greeting(groupName, content);
+    	inscription = new Inscription(groupName);
     }
 
     // Use Objectify to save the greeting and now() is used to make the call synchronously as we
     // will immediately get a new page using redirect and we want the data to be present.
-    ObjectifyService.ofy().save().entity(greeting).now();
+    ObjectifyService.ofy().save().entity(inscription).now();
 
     resp.sendRedirect("/guestbook.jsp?groupName=" + groupName);
   }

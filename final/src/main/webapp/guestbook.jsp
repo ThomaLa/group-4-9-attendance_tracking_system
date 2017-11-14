@@ -5,7 +5,7 @@
 <%@ page import="com.google.appengine.api.users.UserServiceFactory" %>
 
 <%-- //[START imports]--%>
-<%@ page import="com.example.guestbook.Greeting" %>
+<%@ page import="com.example.guestbook.Inscription" %>
 <%@ page import="com.example.guestbook.Guestbook" %>
 <%@ page import="com.googlecode.objectify.Key" %>
 <%@ page import="com.googlecode.objectify.ObjectifyService" %>
@@ -22,11 +22,11 @@
 <body>
 
 <%
-    String guestbookName = request.getParameter("guestbookName");
-    if (guestbookName == null) {
-        guestbookName = "default";
+    String groupName = request.getParameter("groupName");
+    if (groupName == null) {
+    	groupName = "default";
     }
-    pageContext.setAttribute("guestbookName", guestbookName);
+    pageContext.setAttribute("groupName", groupName);
     UserService userService = UserServiceFactory.getUserService();
     User user = userService.getCurrentUser();
     if (user != null) {
@@ -48,40 +48,39 @@
 <%-- //[START datastore]--%>
 <%
     // Create the correct Ancestor key
-      Key<Guestbook> theBook = Key.create(Guestbook.class, guestbookName);
+      Key<Guestbook> theBook = Key.create(Guestbook.class, groupName);
 
     // Run an ancestor query to ensure we see the most up-to-date
     // view of the Greetings belonging to the selected Guestbook.
-      List<Greeting> greetings = ObjectifyService.ofy()
+      List<Inscription> inscriptions = ObjectifyService.ofy()
           .load()
-          .type(Greeting.class) // We want only Greetings
+          .type(Inscription.class) // We want only Greetings
           .ancestor(theBook)    // Anyone in this book
           .order("-date")       // Most recent first - date is indexed.
           //.limit(10)             // Only show 5 of them.
           .list();
 
-    if (greetings.isEmpty()) {
+    if (inscriptions.isEmpty()) {
 %>
-<p>Group '${fn:escapeXml(guestbookName)}' has no student.</p>
+<p>Group '${fn:escapeXml(groupName)}' has no student.</p>
 <%
     } else {
 %>
-<p>Students in Group '${fn:escapeXml(guestbookName)}':</p>
+<p>Students in Group '${fn:escapeXml(groupName)}':</p>
 <%
       // Look at all of our greetings
-        for (Greeting greeting : greetings) {
-            pageContext.setAttribute("greeting_content", greeting.content);
-            String author;
-            if (greeting.author_email == null) {
-                author = "NULL";
+        for (Inscription inscription : inscriptions) {
+            String student;
+            if (inscription.student_email == null) {
+                student = "NULL";
             } else {
-                author = greeting.author_email;
-                String author_id = greeting.author_id;
-                if (user != null && user.getUserId().equals(author_id)) {
-                    author += " (You)";
+                student = inscription.student_email;
+                String student_id = inscription.student_id;
+                if (user != null && user.getUserId().equals(student_id)) {
+                    student += " (You)";
                 }
             }
-            pageContext.setAttribute("greeting_user", author);
+            pageContext.setAttribute("greeting_user", student);
 %>
 <p><b>${fn:escapeXml(greeting_user)}</b> is in this group.</p>
 <%
@@ -91,11 +90,11 @@
 
 <form action="/sign" method="post">
     <div><input type="submit" value="Join this group"/></div>
-    <input type="hidden" name="guestbookName" value="${fn:escapeXml(guestbookName)}"/>
+    <input type="hidden" name="groupName" value="${fn:escapeXml(groupName)}"/>
 </form>
 <%-- //[END datastore]--%>
 <form action="/guestbook.jsp" method="get">
-    <div><input type="text" name="guestbookName" value="${fn:escapeXml(guestbookName)}"/></div>
+    <div><input type="text" name="groupName" value="${fn:escapeXml(groupName)}"/></div>
     <div><input type="submit" value="Switch group"/></div>
 </form>
 

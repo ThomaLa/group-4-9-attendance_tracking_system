@@ -39,42 +39,40 @@ import java.util.List;
  * NOTE - all the properties are PUBLIC so that we can keep the code simple.
  **/
 @Entity
-public class Greeting {
+public class Inscription {
   @Parent Key<Guestbook> theBook;
   @Id public Long id;
 
-  public String author_email;
-  public String author_id;
-  public String content;
+  public String student_email;
+  public String student_id;
   @Index public Date date;
 
   /**
    * Simple constructor just sets the date
    **/
-  public Greeting() {
+  public Inscription() {
     date = new Date();
   }
 
   /**
    * A convenience constructor
    **/
-  public Greeting(String book, String content) {
+  public Inscription(String book) {
     this();
     if( book != null ) {
       theBook = Key.create(Guestbook.class, book);  // Creating the Ancestor key
     } else {
       theBook = Key.create(Guestbook.class, "default");
     }
-    this.content = "yi"+content;
   }
 
   /**
    * Takes all important fields
    **/
-  public Greeting(String book, String content, String id, String email) {
-    this(book, content);
-    author_email = email;
-    author_id = id;
+  public Inscription(String book, String id, String email) {
+    this(book);
+    student_email = email;
+    student_id = id;
   }
 
 }
