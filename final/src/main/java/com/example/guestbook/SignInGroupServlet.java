@@ -42,7 +42,7 @@ import com.googlecode.objectify.ObjectifyService;
  * {@link #doPost(<#HttpServletRequest req#>, <#HttpServletResponse resp#>)} which takes the form
  * data and saves it.
  */
-public class SignGuestbookServlet extends HttpServlet {
+public class SignInGroupServlet extends HttpServlet {
 
   // Process the http POST of the form
   @Override

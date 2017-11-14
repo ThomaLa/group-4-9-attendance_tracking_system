@@ -6,7 +6,7 @@
 <!-- [START standard_mappings] -->
     <servlet>
       <servlet-name>sign</servlet-name>
-      <servlet-class>com.example.guestbook.SignGuestbookServlet</servlet-class>
+      <servlet-class>com.example.guestbook.SignInGroupServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
