@@ -52,19 +52,19 @@ public class SignGuestbookServlet extends HttpServlet {
     UserService userService = UserServiceFactory.getUserService();
     User user = userService.getCurrentUser();  // Find out who the user is.
 
-    String guestbookName = req.getParameter("guestbookName");
+    String groupName = req.getParameter("groupName");
     String content = req.getParameter("content");
     if (user != null) {
-      greeting = new Greeting(guestbookName, content, user.getUserId(), user.getEmail());
+      greeting = new Greeting(groupName, content, user.getUserId(), user.getEmail());
     } else {
-      greeting = new Greeting(guestbookName, content);
+      greeting = new Greeting(groupName, content);
     }
 
     // Use Objectify to save the greeting and now() is used to make the call synchronously as we
     // will immediately get a new page using redirect and we want the data to be present.
     ObjectifyService.ofy().save().entity(greeting).now();
 
-    resp.sendRedirect("/guestbook.jsp?guestbookName=" + guestbookName);
+    resp.sendRedirect("/guestbook.jsp?groupName=" + groupName);
   }
 }
 //[END all]
