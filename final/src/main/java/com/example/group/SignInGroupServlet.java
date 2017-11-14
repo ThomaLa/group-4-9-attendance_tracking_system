@@ -63,7 +63,7 @@ public class SignInGroupServlet extends HttpServlet {
     // will immediately get a new page using redirect and we want the data to be present.
     ObjectifyService.ofy().save().entity(inscription).now();
 
-    resp.sendRedirect("/guestbook.jsp?groupName=" + groupName);
+    resp.sendRedirect("/group.jsp?groupName=" + groupName);
   }
 }
 //[END all]
