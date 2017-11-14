@@ -6,7 +6,7 @@
 
 <%-- //[START imports]--%>
 <%@ page import="com.example.guestbook.Inscription" %>
-<%@ page import="com.example.guestbook.Guestbook" %>
+<%@ page import="com.example.guestbook.Group" %>
 <%@ page import="com.googlecode.objectify.Key" %>
 <%@ page import="com.googlecode.objectify.ObjectifyService" %>
 <%-- //[END imports]--%>
@@ -48,16 +48,15 @@
 <%-- //[START datastore]--%>
 <%
     // Create the correct Ancestor key
-      Key<Guestbook> theBook = Key.create(Guestbook.class, groupName);
+      Key<Group> theBook = Key.create(Group.class, groupName);
 
     // Run an ancestor query to ensure we see the most up-to-date
-    // view of the Greetings belonging to the selected Guestbook.
+    // view of the Students belonging to the selected Group.
       List<Inscription> inscriptions = ObjectifyService.ofy()
           .load()
-          .type(Inscription.class) // We want only Greetings
+          .type(Inscription.class) //TODO: We want only Inscriptions
           .ancestor(theBook)    // Anyone in this book
           .order("-date")       // Most recent first - date is indexed.
-          //.limit(10)             // Only show 5 of them.
           .list();
 
     if (inscriptions.isEmpty()) {

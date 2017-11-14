@@ -40,7 +40,7 @@ import java.util.List;
  **/
 @Entity
 public class Inscription {
-  @Parent Key<Guestbook> theBook;
+  @Parent Key<Group> theBook;
   @Id public Long id;
 
   public String student_email;
@@ -57,20 +57,20 @@ public class Inscription {
   /**
    * A convenience constructor
    **/
-  public Inscription(String book) {
+  public Inscription(String groupName) {
     this();
-    if( book != null ) {
-      theBook = Key.create(Guestbook.class, book);  // Creating the Ancestor key
+    if( groupName != null ) {
+      theBook = Key.create(Group.class, groupName);  // Creating the Ancestor key
     } else {
-      theBook = Key.create(Guestbook.class, "default");
+      theBook = Key.create(Group.class, "default");
     }
   }
 
   /**
    * Takes all important fields
    **/
-  public Inscription(String book, String id, String email) {
-    this(book);
+  public Inscription(String groupName, String id, String email) {
+    this(groupName);
     student_email = email;
     student_id = id;
   }

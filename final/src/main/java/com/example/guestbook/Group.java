@@ -27,7 +27,7 @@ import com.googlecode.objectify.annotation.Id;
  * This is never actually created, but gives a hint to Objectify about our Ancestor key.
  */
 @Entity
-public class Guestbook {
+public class Group {
   @Id public String book;
 }
 //[END all]
