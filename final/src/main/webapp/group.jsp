@@ -54,7 +54,7 @@
     // view of the Students belonging to the selected Group.
       List<Inscription> inscriptions = ObjectifyService.ofy()
           .load()
-          .type(Inscription.class) //TODO: We want only Inscriptions
+          .type(Inscription.class) //We want only Inscriptions
           .ancestor(theBook)    // Anyone in this book
           .order("-date")       // Most recent first - date is indexed.
           .list();
@@ -92,7 +92,7 @@
     <input type="hidden" name="groupName" value="${fn:escapeXml(groupName)}"/>
 </form>
 <%-- //[END datastore]--%>
-<form action="/guestbook.jsp" method="get">
+<form action="/group.jsp" method="get">
     <div><input type="text" name="groupName" value="${fn:escapeXml(groupName)}"/></div>
     <div><input type="submit" value="Switch group"/></div>
 </form>
