@@ -40,7 +40,7 @@
 %>
 <p>Hello!
     <a href="<%= userService.createLoginURL(request.getRequestURI()) %>">Sign in</a>
-    to include your name with greetings you post.</p>
+    to register in a group.</p>
 <%
     }
 %>
@@ -62,29 +62,30 @@
 
     if (greetings.isEmpty()) {
 %>
-<p>Guestbook '${fn:escapeXml(guestbookName)}' has no messages.</p>
+<p>Group '${fn:escapeXml(guestbookName)}' has no student.</p>
 <%
     } else {
 %>
-<p>Messages in Guestbook '${fn:escapeXml(guestbookName)}'.</p>
+<p>Students in Group '${fn:escapeXml(guestbookName)}'.</p>
 <%
       // Look at all of our greetings
         for (Greeting greeting : greetings) {
             pageContext.setAttribute("greeting_content", greeting.content);
             String author;
             if (greeting.author_email == null) {
-                author = "An anonymous person";
+                author = "NULL";
             } else {
                 author = greeting.author_email;
                 String author_id = greeting.author_id;
                 if (user != null && user.getUserId().equals(author_id)) {
-                    author += " (You)";
+                    author += " (You) are";
+                } else {
+                	author += " is";
                 }
             }
             pageContext.setAttribute("greeting_user", author);
 %>
-<p><b>${fn:escapeXml(greeting_user)}</b> wrote:</p>
-<blockquote>${fn:escapeXml(greeting_content)}</blockquote>
+<p><b>${fn:escapeXml(greeting_user)}</b> in this group.</p>
 <%
         }
     }
