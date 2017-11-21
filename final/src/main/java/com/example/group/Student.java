@@ -39,25 +39,27 @@ import java.util.List;
  * NOTE - all the properties are PUBLIC so that we can keep the code simple.
  **/
 @Entity
-public class Inscription {
+public class Student {
   @Parent Key<Group> theBook;
   @Id public Long id;
 
   public String student_email;
   public String student_id;
+  public String group;
   @Index public Date date;
 
   /**
    * Simple constructor just sets the date
    **/
-  public Inscription() {
+  public Student() {
     date = new Date();
+    group = "";
   }
 
   /**
    * A convenience constructor
    **/
-  public Inscription(String groupName) {
+  public Student(String groupName) {
     this();
     if( groupName != null ) {
       theBook = Key.create(Group.class, groupName);  // Creating the Ancestor key
@@ -69,7 +71,7 @@ public class Inscription {
   /**
    * Takes all important fields
    **/
-  public Inscription(String groupName, String id, String email) {
+  public Student(String groupName, String id, String email) {
     this(groupName);
     student_email = email;
     student_id = id;

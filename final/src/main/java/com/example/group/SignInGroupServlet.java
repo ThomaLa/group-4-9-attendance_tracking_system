@@ -47,16 +47,16 @@ public class SignInGroupServlet extends HttpServlet {
   // Process the http POST of the form
   @Override
   public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-    Inscription inscription;
+    Student inscription;
 
     UserService userService = UserServiceFactory.getUserService();
     User user = userService.getCurrentUser();  // Find out who the user is.
 
     String groupName = req.getParameter("groupName");
     if (user != null) {
-    	inscription = new Inscription(groupName, user.getUserId(), user.getEmail());
+    	inscription = new Student(groupName, user.getUserId(), user.getEmail());
     } else {
-    	inscription = new Inscription(groupName);
+    	inscription = new Student(groupName);
     }
 
     // Use Objectify to save the greeting and now() is used to make the call synchronously as we

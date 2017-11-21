@@ -5,7 +5,7 @@
 <%@ page import="com.google.appengine.api.users.UserServiceFactory" %>
 
 <%-- //[START imports]--%>
-<%@ page import="com.example.group.Inscription" %>
+<%@ page import="com.example.group.Student" %>
 <%@ page import="com.example.group.Group" %>
 <%@ page import="com.googlecode.objectify.Key" %>
 <%@ page import="com.googlecode.objectify.ObjectifyService" %>
@@ -52,14 +52,14 @@
 
     // Run an ancestor query to ensure we see the most up-to-date
     // view of the Students belonging to the selected Group.
-      List<Inscription> inscriptions = ObjectifyService.ofy()
+      List<Student> students = ObjectifyService.ofy()
           .load()
-          .type(Inscription.class) //We want only Inscriptions
+          .type(Student.class) //We want only Inscriptions
           .ancestor(theBook)    // Anyone in this book
           .order("-date")       // Most recent first - date is indexed.
           .list();
 
-    if (inscriptions.isEmpty()) {
+    if (students.isEmpty()) {
 %>
 <p>Group '${fn:escapeXml(groupName)}' has no student.</p>
 <%
@@ -68,18 +68,18 @@
 <p>Students in Group '${fn:escapeXml(groupName)}':</p>
 <%
       // Look at all of our greetings
-        for (Inscription inscription : inscriptions) {
-            String student;
-            if (inscription.student_email == null) {
-                student = "NULL";
+        for (Student student : students) {
+            String s;
+            if (student.student_email == null) {
+                s = "NULL";
             } else {
-                student = inscription.student_email;
-                String student_id = inscription.student_id;
+                s = student.student_email;
+                String student_id = student.student_id;
                 if (user != null && user.getUserId().equals(student_id)) {
-                    student += " (You)";
+                    s += " (You)";
                 }
             }
-            pageContext.setAttribute("greeting_user", student);
+            pageContext.setAttribute("greeting_user", s);
 %>
 <p><b>${fn:escapeXml(greeting_user)}</b> is in this group.</p>
 <%
