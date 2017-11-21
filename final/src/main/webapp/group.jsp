@@ -35,15 +35,6 @@
 
 <p>Hello, ${fn:escapeXml(user.nickname)}! (You can
     <a href="<%= userService.createLogoutURL(request.getRequestURI()) %>">sign out</a>.)</p>
-<%
-    } else {
-%>
-<p>Hello!
-    <a href="<%= userService.createLoginURL(request.getRequestURI()) %>">Sign in</a>
-    to register in a group.</p>
-<%
-    }
-%>
 
 <%-- //[START datastore]--%>
 <%
@@ -67,7 +58,7 @@
 %>
 <p>Students in Group '${fn:escapeXml(groupName)}':</p>
 <%
-      // Look at all of our greetings
+      // Look at all of our students
         for (Student student : students) {
             String s;
             if (student.student_email == null) {
@@ -86,7 +77,6 @@
         }
     }
 %>
-
 <form action="/sign" method="post">
     <div><input type="submit" value="Join this group"/></div>
     <input type="hidden" name="groupName" value="${fn:escapeXml(groupName)}"/>
@@ -96,6 +86,19 @@
     <div><input type="text" name="groupName" value="${fn:escapeXml(groupName)}"/></div>
     <div><input type="submit" value="Switch group"/></div>
 </form>
+<%
+    } else {
+%>
+<p>Hello!
+    <a href="<%= userService.createLoginURL(request.getRequestURI()) %>">Please sign in</a>
+    to register in a group.</p>
+<%
+    }
+%>
+
+
+
+
 
 </body>
 </html>
