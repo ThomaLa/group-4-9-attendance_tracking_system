@@ -42,6 +42,7 @@ import java.util.List;
 public class Student {
   @Parent Key<Group> theBook;
   @Id public Long id;
+  
   public String student_email;
   public String student_id;
   public String group;
