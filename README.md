@@ -11,14 +11,20 @@ Clone the project, navigate to its ```final``` directory
 
 Run ```mvn eclipse:eclipse``` 
 
-Open eclipse, *File > Import Existing Project* 
+Open eclipse, *File > Import Existing Project* and import *textbook*
 
 Enjoy
 
 ### launch server
 
-(```cd this/final```)
+```cd this/final```
+
+\[```mvn clear```\]
 
 ```mvn appengine:devserver```
 
 Open in browser http://localhost:8080 (or http://127.0.0.1:8080)
+
+### play with it
+
+Log in as admin, create some groups, edit them by joining them and then changing the fields down under. Then login as non-admin.
