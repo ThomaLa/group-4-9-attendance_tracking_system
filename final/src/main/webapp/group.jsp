@@ -80,11 +80,9 @@
 	<%
     		}
 		}
-	// Create the correct Ancestor key Key
-	Key<Group> theBook = Key.create(Group.class, groupName); // Run an ancestor query to ensure we see the most up-to-date
 		// view of the Students belonging to the selected Group. 
 		List<Student> students = ObjectifyService.ofy().load().type(Student.class) //We want only Students
-			.ancestor(theBook) // Anyone in this book
+			.ancestor(theCourse) // Anyone in this book
 			.order("-date") // Most recent first - date is indexed. 
 			.list();
 	if
@@ -100,7 +98,7 @@
 	<%
       // Look at all of our students
         for (Student student : students) {
-            String s;
+            String s,g;
             if (student.student_email == null) {
                 s = "NULL";
             } else {
@@ -110,10 +108,17 @@
                     s += " (You)";
                 }
             }
-            pageContext.setAttribute("greeting_user", s);
+            if (student.group == null){
+            	g = "NULL";
+            } else {
+            	g = student.group;
+            	//TODO add notice if this is current group
+            }
+            pageContext.setAttribute("user", s);
+            pageContext.setAttribute("user_group", g);
 %>
 	<p>
-		<b>  - ${fn:escapeXml(greeting_user)}</b>
+		<b>- ${fn:escapeXml(user)}</b> is in group: <b>${fn:escapeXml(user_group)}</b>
 	</p>
 	<%
         }
