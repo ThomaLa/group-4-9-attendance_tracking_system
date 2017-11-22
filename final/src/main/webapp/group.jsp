@@ -46,6 +46,10 @@
 			href="<%= userService.createLogoutURL(request.getRequestURI()) %>">sign
 			out</a>.)
 	</p>
+	
+	<p>
+		You are currently registered in .
+	</p>
 
 	<%-- //[START datastore]--%>
 	<%
@@ -103,7 +107,7 @@
                 s = "NULL";
             } else {
                 s = student.student_email;
-                String student_id = student.student_id;
+                String student_id = student.id;
                 if (user != null && user.getUserId().equals(student_id)) {
                     s += " (You)";
                 }
@@ -114,6 +118,9 @@
             	g = student.group;
             	//TODO add notice if this is current group
             }
+            
+            g += " _"+student.id+"_";
+            
             pageContext.setAttribute("user", s);
             pageContext.setAttribute("user_group", g);
 %>
@@ -121,6 +128,7 @@
 		<b>- ${fn:escapeXml(user)}</b> is in group: <b>${fn:escapeXml(user_group)}</b>
 	</p>
 	<%
+		
         }
     }
 %>

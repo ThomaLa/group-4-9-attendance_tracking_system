@@ -41,10 +41,9 @@ import java.util.List;
 @Entity
 public class Student {
   @Parent Key<Course> theBook;
-  @Id public Long id;
+  @Id public String id;
   
   public String student_email;
-  public String student_id;
   public String group;
   @Index public Date date;
 
@@ -62,7 +61,7 @@ public class Student {
   public Student(String groupName) {
     this();
     if( groupName == null ) {
-      group = "";  // Creating the Ancestor key
+      group = "";
     } else {
       group = groupName;
     }
@@ -74,7 +73,7 @@ public class Student {
   public Student(String groupName, String id, String email) {
     this(groupName);
     student_email = email;
-    student_id = id;
+    this.id = id;
   }
 
 }
