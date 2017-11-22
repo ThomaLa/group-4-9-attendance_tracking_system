@@ -36,8 +36,9 @@ public class Group {
 	@Parent Key<Course> course; 
 	@Id public String book;
 
-	public int groupNumber = -1;
-	public Date time;
+	//public int groupNumber = -1;
+	public String time;
+	public String place;
 	public String instructor;
 
 	@Index public Date date;
@@ -65,10 +66,11 @@ public class Group {
 	/**
 	 * complete constructor
 	 */
-	public Group(String groupName, int groupNumber, Date time, String instructor) {
+	public Group(String groupName, String time, String place, String instructor) {
 		this(groupName);
-		this.groupNumber = groupNumber;
+		//this.groupNumber = groupNumber;
 		this.time = time;
+		this.place = place;
 		this.instructor = instructor;
 	}
 }

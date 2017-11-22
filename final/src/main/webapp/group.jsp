@@ -107,6 +107,20 @@
 	
 	String nGroups = " "+groups.size()+((groups.size()>1)?" groups":" group");
 	pageContext.setAttribute("nGroups", nGroups);
+	Group hisGroup = null;
+	if(him == null){
+		%>
+		<p>
+			Please choose your group in the following list:
+		</p>
+		<%
+	} else {
+		%>
+		<p>
+			Your current group is <b>${fn:escapeXml(groupName)}</b>. GROUPDATA... You may change it below. 
+		</p>
+		<%
+	}
 	%>
 	<p>Available groups in “${fn:escapeXml(courseName)}”:</p>
 	<p>This course has${fn:escapeXml(nGroups)}.</p>
@@ -115,6 +129,14 @@
       // Look at all of our students
 	        for (Group group : groups) {
 	            String s = group.book;
+	            if (him != null && s == groupName){
+	            	hisGroup = group;
+	            	s+= " (your current group)";
+	            }
+	            s += " will be taught by " + group.instructor
+	            		+ " at time " + group.time
+	            		+ " at place " + group.place;
+	            
 	            /*if (group.groupNumber == -1) {
 	                s = "NULL";
 	            } else {
@@ -122,30 +144,64 @@
 	                //TODO show which group he's in
 	            }*/
 	            pageContext.setAttribute("group_description", s);
-	%>
-	<p>
-		<b>  - ${fn:escapeXml(group_description)}</b><form action="/sign" method="post">
-		<div>
-			<input type="submit" value="Join this group" />
-		</div>
-		<input type="hidden" name="groupName"
-			value="${fn:escapeXml(group_description)}" />
-	</form>
-	</p>
-	<%
+	            %>
+	            <p><b>  - ${fn:escapeXml(group_description)}</b></p>
+	            <%
+	            
+	            	%>
+	            	<p>
+	            		<form action="/sign" method="post">
+	            		<div>
+	            			<input type="submit" value="Join this group" />
+	            		</div>
+	            		<input type="hidden" name="groupName"
+	            			value="${fn:escapeXml(group_description)}" />
+	            	</form>
+	            	</p>
+	            	<%
+	            
+	
 	    		}
 			}
 			// view of the Students belonging to the selected Group. 
 		if(userService.isUserAdmin()){
 			%>
-			
 			<form action="/sign" method="post">
 				<div>
 					<input type="text" name="groupName"
 						value="${fn:escapeXml(groupName)}" />
 				</div>
 				<div>
-					<input type="submit" value="Create (and join) new group" />
+					<input type="submit" value="Create a new group" />
+				</div>
+			</form>
+			<%
+			String time = "", place = "", instructor = "";
+			if(hisGroup != null){
+				time = hisGroup.time;
+				place = hisGroup.place;
+				instructor = hisGroup.instructor;
+			}
+			pageContext.setAttribute("groupTime",time);
+			pageContext.setAttribute("groupPlace",place);
+			pageContext.setAttribute("groupInstructor",instructor);
+			%>
+			<form action="/edit" method="post">
+				<p>
+					Edit current group (${fn:escapeXml(groupName)}) time/place/instructor
+				</p>
+				<div>
+					<input type="text" name="time"
+						value="${fn:escapeXml(groupTime)}" />
+					<input type="text" name="place"
+						value="${fn:escapeXml(groupPlace)}" />
+					<input type="text" name="instructor"
+						value="${fn:escapeXml(groupInstructor)}" />
+				</div>
+				<input type="hidden" name="groupName"
+	            			value="${fn:escapeXml(group_description)}" />
+				<div>
+					<input type="submit" value="Save changes" />
 				</div>
 			</form>
 			<%
