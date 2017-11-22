@@ -86,9 +86,7 @@
             	g = student.group;
             	//TODO add notice if this is current group
             }
-            
-            g += " _"+student.id+"_";
-            
+            //g += " _"+student.id+"_";
             pageContext.setAttribute("user", s);
             pageContext.setAttribute("user_group", g);
             if(userService.isUserAdmin()){
@@ -126,32 +124,33 @@
 	            pageContext.setAttribute("group_description", s);
 	%>
 	<p>
-		<b>  - ${fn:escapeXml(group_description)}</b>
-	</p>
-	<%
-    		}
-		}
-		// view of the Students belonging to the selected Group. 
-		
-%>
-	<form action="/sign" method="post">
+		<b>  - ${fn:escapeXml(group_description)}</b><form action="/sign" method="post">
 		<div>
 			<input type="submit" value="Join this group" />
 		</div>
 		<input type="hidden" name="groupName"
-			value="${fn:escapeXml(groupName)}" />
+			value="${fn:escapeXml(group_description)}" />
 	</form>
-	<%-- //[END datastore]--%>
-	<form action="/group.jsp" method="get">
-		<div>
-			<input type="text" name="groupName"
-				value="${fn:escapeXml(groupName)}" />
-		</div>
-		<div>
-			<input type="submit" value="See other groups" />
-		</div>
-	</form>
+	</p>
 	<%
+	    		}
+			}
+			// view of the Students belonging to the selected Group. 
+		if(userService.isUserAdmin()){
+			%>
+			
+			<form action="/sign" method="post">
+				<div>
+					<input type="text" name="groupName"
+						value="${fn:escapeXml(groupName)}" />
+				</div>
+				<div>
+					<input type="submit" value="Create (and join) new group" />
+				</div>
+			</form>
+			<%
+		}
+
     } else {
 %>
 	<p>
