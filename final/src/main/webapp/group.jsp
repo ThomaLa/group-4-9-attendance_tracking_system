@@ -55,14 +55,14 @@
 				.type(Group.class)
 				.ancestor(theCourse)
 				.list();
-		if (groups.isEmpty()){
+		
+		String n = " "+groups.size()+((groups.size()>1)?" groups":" group");
+		pageContext.setAttribute("n", n);
 	%>
-	<p>This course, '${fn:escapeXml(courseName)}' has no group.</p>
+	<p>Available groups in “${fn:escapeXml(courseName)}”:</p>
+	<p>This course has${fn:escapeXml(n)}.</p>
 	<%
-		} else {
-	%>
-	<p>Available groups '${fn:escapeXml(groupName)}':</p>
-	<%
+	if (!groups.isEmpty()){
       // Look at all of our students
 	        for (Group group : groups) {
 	            String s = group.book;
@@ -75,7 +75,7 @@
 	            pageContext.setAttribute("group_description", s);
 	%>
 	<p>
-		<b>${fn:escapeXml(group_description)}</b> is in this class.
+		<b>  - ${fn:escapeXml(group_description)}</b>
 	</p>
 	<%
     		}
@@ -92,8 +92,11 @@
 	<p>Group '${fn:escapeXml(groupName)}' has no student.</p>
 	<%
     } else {
-%>
-	<p>Students in Group '${fn:escapeXml(groupName)}':</p>
+    	int nStudents = students.size();
+    	pageContext.setAttribute("nStudents", nStudents);
+    	
+	%>
+	<p>Students in Group '${fn:escapeXml(groupName)}':  ${fn:escapeXml(nStudents)}</p>
 	<%
       // Look at all of our students
         for (Student student : students) {
@@ -110,7 +113,7 @@
             pageContext.setAttribute("greeting_user", s);
 %>
 	<p>
-		<b>${fn:escapeXml(greeting_user)}</b> is in this group.
+		<b>  - ${fn:escapeXml(greeting_user)}</b>
 	</p>
 	<%
         }
