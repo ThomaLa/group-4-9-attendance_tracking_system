@@ -191,15 +191,15 @@
 					Edit current group (${fn:escapeXml(groupName)}) time/place/instructor
 				</p>
 				<div>
-					<input type="text" name="time"
+					<input type="text" name="groupTime"
 						value="${fn:escapeXml(groupTime)}" />
-					<input type="text" name="place"
+					<input type="text" name="groupPlace"
 						value="${fn:escapeXml(groupPlace)}" />
-					<input type="text" name="instructor"
+					<input type="text" name="groupInstructor"
 						value="${fn:escapeXml(groupInstructor)}" />
 				</div>
 				<input type="hidden" name="groupName"
-	            			value="${fn:escapeXml(group_description)}" />
+	            			value="${fn:escapeXml(groupName)}" />
 				<div>
 					<input type="submit" value="Save changes" />
 				</div>
