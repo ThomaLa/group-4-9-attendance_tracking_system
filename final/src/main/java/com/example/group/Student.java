@@ -45,7 +45,6 @@ public class Student {
   
   public String student_email;
   public String student_id;
-  public String group;
   @Index public Date date;
 
   /**
@@ -53,7 +52,6 @@ public class Student {
    **/
   public Student() {
     date = new Date();
-    group = "";
   }
 
   /**

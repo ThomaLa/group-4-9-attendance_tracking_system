@@ -47,21 +47,24 @@ public class SignInGroupServlet extends HttpServlet {
   // Process the http POST of the form
   @Override
   public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-    Student inscription;
+    Student student;
 
     UserService userService = UserServiceFactory.getUserService();
     User user = userService.getCurrentUser();  // Find out who the user is.
 
     String groupName = req.getParameter("groupName");
     if (user != null) {
-    	inscription = new Student(groupName, user.getUserId(), user.getEmail());
+    	student = new Student(groupName, user.getUserId(), user.getEmail());
     } else {
-    	inscription = new Student(groupName);
+    	student = new Student(groupName);
     }
+    
+    Group group = new Group(groupName);
+    ObjectifyService.ofy().save().entity(group).now();
 
     // Use Objectify to save the greeting and now() is used to make the call synchronously as we
     // will immediately get a new page using redirect and we want the data to be present.
-    ObjectifyService.ofy().save().entity(inscription).now();
+    ObjectifyService.ofy().save().entity(student).now();
 
     resp.sendRedirect("/group.jsp?groupName=" + groupName);
   }
