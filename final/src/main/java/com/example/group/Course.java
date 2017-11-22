@@ -17,13 +17,8 @@
 //[START all]
 package com.example.group;
 
-import java.util.Date;
-
-import com.googlecode.objectify.Key;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
-import com.googlecode.objectify.annotation.Index;
-import com.googlecode.objectify.annotation.Parent;
 
 /**
  * The @Entity tells Objectify about our entity.  We also register it in
@@ -32,46 +27,7 @@ import com.googlecode.objectify.annotation.Parent;
  * This is never actually created, but gives a hint to Objectify about our Ancestor key.
  */
 @Entity
-public class Group {
-	@Parent Key<Course> course; 
-	@Id public String book;
-
-	//public int groupNumber = -1;
-	public String time;
-	public String place;
-	public String instructor;
-
-	@Index public Date date;
-
-	/**
-	 * Simple constructor
-	 */
-	public Group() {
-		date = new Date();
-		course = Key.create(Course.class, "default");
-	}
-
-	/**
-	 * CAUTION, here we define groupName and NOT courseName
-	 */
-	public Group(String groupName) {
-		this();
-		if( groupName != null ) {
-			book = groupName;
-		} else {
-			book = "NULL";
-		}
-	}
-
-	/**
-	 * complete constructor
-	 */
-	public Group(String groupName, String time, String place, String instructor) {
-		this(groupName);
-		//this.groupNumber = groupNumber;
-		this.time = time;
-		this.place = place;
-		this.instructor = instructor;
-	}
+public class Course {
+  @Id public String course;
 }
 //[END all]

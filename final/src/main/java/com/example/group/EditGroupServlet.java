@@ -36,7 +36,7 @@ import com.googlecode.objectify.ObjectifyService;
  * {@link #doPost(<#HttpServletRequest req#>, <#HttpServletResponse resp#>)} which takes the form
  * data and saves it.
  */
-public class SignInGroupServlet extends HttpServlet {
+public class EditGroupServlet extends HttpServlet {
 
   // Process the http POST of the form
   @Override
@@ -52,11 +52,11 @@ public class SignInGroupServlet extends HttpServlet {
     } else {
     	student = new Student(groupName);
     }
-    Group group = new Group(groupName);
-    if(userService.isUserAdmin()) {
-        ObjectifyService.ofy().save().entity(group).now();
-    }
-    ObjectifyService.ofy().save().entity(student).now();
+    String time = req.getParameter("groupTime");
+    String place = req.getParameter("groupPlace");
+    String instructor = req.getParameter("groupInstructor");
+    Group group = new Group(groupName, time, place, instructor);
+    ObjectifyService.ofy().save().entity(group).now();
     
     resp.sendRedirect("/group.jsp?groupName=" + groupName);
   }
