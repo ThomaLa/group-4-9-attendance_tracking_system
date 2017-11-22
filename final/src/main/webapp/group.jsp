@@ -27,44 +27,91 @@
 	if(courseName == null){
 		courseName = "default";
 	}
-	pageContext.setAttribute("courseName", courseName);
-	
-
-    String groupName = request.getParameter("groupName");
+	String groupName = request.getParameter("groupName");
     if (groupName == null) {
     	groupName = "NULL";
     }
-    pageContext.setAttribute("groupName", groupName);
-    UserService userService = UserServiceFactory.getUserService();
+	pageContext.setAttribute("courseName", courseName);
+	pageContext.setAttribute("groupName", groupName);
+    
+	UserService userService = UserServiceFactory.getUserService();
     User user = userService.getCurrentUser();
     if (user != null) {
         pageContext.setAttribute("user", user);
+        //pageContext.setAttribute("admin", userService.isUserAdmin());
 %>
 
 	<p>
 		Hello, ${fn:escapeXml(user.nickname)}! (You can <a
 			href="<%= userService.createLogoutURL(request.getRequestURI()) %>">sign
-			out</a>.)
+			out</a> here.)
 	</p>
 	
-	<p>
-		You are currently registered in .
-	</p>
-
-	<%-- //[START datastore]--%>
 	<%
+		// Find this student if he is already there
+		Student him = null;
 		Key<Course> theCourse = Key.create(Course.class, courseName);
-		List<Group> groups = ObjectifyService.ofy()
-				.load()
-				.type(Group.class)
-				.ancestor(theCourse)
+		List<Student> students = ObjectifyService.ofy().load().type(Student.class) //We want only Students
+				.ancestor(theCourse) // Anyone in this book
+				.order("-date") // Most recent first - date is indexed. 
 				.list();
-		
-		String n = " "+groups.size()+((groups.size()>1)?" groups":" group");
-		pageContext.setAttribute("n", n);
+		if(userService.isUserAdmin() && students.isEmpty()) {
+			%>
+			<p>Group '${fn:escapeXml(groupName)}' has no student.</p>
+			<%
+	    } else {
+	    	int nStudents = students.size();
+	    	pageContext.setAttribute("nStudents", nStudents);
+    		if(userService.isUserAdmin()){
+    			%>
+    			<p>Students in total:  ${fn:escapeXml(nStudents)}</p>
+    			<%
+    		}
+      // Look at all of our students
+        for (Student student : students) {
+            String s,g;
+            if (student.student_email == null) {
+                s = "NULL";
+            } else {
+                s = student.student_email;
+                String student_id = student.id;
+                if (user != null && user.getUserId().equals(student_id)) {
+                    s += " (You)";
+                    him = student;
+                }
+            }
+            if (student.group == null){
+            	g = "NULL";
+            } else {
+            	g = student.group;
+            	//TODO add notice if this is current group
+            }
+            
+            g += " _"+student.id+"_";
+            
+            pageContext.setAttribute("user", s);
+            pageContext.setAttribute("user_group", g);
+            if(userService.isUserAdmin()){
+            	%>
+            	<p>
+            		<b>- ${fn:escapeXml(user)}</b> is in group: <b>${fn:escapeXml(user_group)}</b>
+            	</p>
+            	<%
+            }		
+        }
+    }
+	
+	List<Group> groups = ObjectifyService.ofy()
+			.load()
+			.type(Group.class)
+			.ancestor(theCourse)
+			.list();
+	
+	String nGroups = " "+groups.size()+((groups.size()>1)?" groups":" group");
+	pageContext.setAttribute("nGroups", nGroups);
 	%>
 	<p>Available groups in “${fn:escapeXml(courseName)}”:</p>
-	<p>This course has${fn:escapeXml(n)}.</p>
+	<p>This course has${fn:escapeXml(nGroups)}.</p>
 	<%
 	if (!groups.isEmpty()){
       // Look at all of our students
@@ -85,52 +132,7 @@
     		}
 		}
 		// view of the Students belonging to the selected Group. 
-		List<Student> students = ObjectifyService.ofy().load().type(Student.class) //We want only Students
-			.ancestor(theCourse) // Anyone in this book
-			.order("-date") // Most recent first - date is indexed. 
-			.list();
-	if
-	(students.isEmpty()) { %>
-	<p>Group '${fn:escapeXml(groupName)}' has no student.</p>
-	<%
-    } else {
-    	int nStudents = students.size();
-    	pageContext.setAttribute("nStudents", nStudents);
-    	
-	%>
-	<p>Students in Group '${fn:escapeXml(groupName)}':  ${fn:escapeXml(nStudents)}</p>
-	<%
-      // Look at all of our students
-        for (Student student : students) {
-            String s,g;
-            if (student.student_email == null) {
-                s = "NULL";
-            } else {
-                s = student.student_email;
-                String student_id = student.id;
-                if (user != null && user.getUserId().equals(student_id)) {
-                    s += " (You)";
-                }
-            }
-            if (student.group == null){
-            	g = "NULL";
-            } else {
-            	g = student.group;
-            	//TODO add notice if this is current group
-            }
-            
-            g += " _"+student.id+"_";
-            
-            pageContext.setAttribute("user", s);
-            pageContext.setAttribute("user_group", g);
-%>
-	<p>
-		<b>- ${fn:escapeXml(user)}</b> is in group: <b>${fn:escapeXml(user_group)}</b>
-	</p>
-	<%
 		
-        }
-    }
 %>
 	<form action="/sign" method="post">
 		<div>
