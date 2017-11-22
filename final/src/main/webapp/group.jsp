@@ -117,7 +117,7 @@
 	} else {
 		%>
 		<p>
-			Your current group is <b>${fn:escapeXml(groupName)}</b>. GROUPDATA... You may change it below. 
+			Your current group is <b>${fn:escapeXml(groupName)}</b>. You may change it below. 
 		</p>
 		<%
 	}
@@ -129,11 +129,11 @@
       // Look at all of our students
 	        for (Group group : groups) {
 	            String s = group.book;
-	            if (him != null && s == groupName){
+	            if (him != null && s.equals(groupName)){
 	            	hisGroup = group;
 	            	s+= " (your current group)";
 	            }
-	            s += " will be taught by " + group.instructor
+	            String t = " will be taught by " + group.instructor
 	            		+ " at time " + group.time
 	            		+ " at place " + group.place;
 	            
@@ -143,9 +143,10 @@
 	                s = "Group "+group.groupNumber;
 	                //TODO show which group he's in
 	            }*/
-	            pageContext.setAttribute("group_description", s);
+	            pageContext.setAttribute("other_group", s);
+	            pageContext.setAttribute("other_group_description", t);
 	            %>
-	            <p><b>  - ${fn:escapeXml(group_description)}</b></p>
+	            <p><b>  - ${fn:escapeXml(other_group)}</b>${fn:escapeXml(other_group_description)}</p>
 	            <%
 	            
 	            	%>
@@ -155,7 +156,7 @@
 	            			<input type="submit" value="Join this group" />
 	            		</div>
 	            		<input type="hidden" name="groupName"
-	            			value="${fn:escapeXml(group_description)}" />
+	            			value="${fn:escapeXml(other_group)}" />
 	            	</form>
 	            	</p>
 	            	<%

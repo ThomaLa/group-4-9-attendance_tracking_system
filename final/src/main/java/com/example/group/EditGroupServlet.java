@@ -56,10 +56,7 @@ public class EditGroupServlet extends HttpServlet {
     String place = req.getParameter("groupPlace");
     String instructor = req.getParameter("groupInstructor");
     Group group = new Group(groupName, time, place, instructor);
-    if(userService.isUserAdmin()) {
-        ObjectifyService.ofy().save().entity(group).now();
-    }
-    ObjectifyService.ofy().save().entity(student).now();
+    ObjectifyService.ofy().save().entity(group).now();
     
     resp.sendRedirect("/group.jsp?groupName=" + groupName);
   }
