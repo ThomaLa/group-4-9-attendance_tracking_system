@@ -216,21 +216,36 @@
 			%>
 			<%
 		}else{
-			
+			String time = "undefined", place = "undefined", instructor="undefined";
+			if(hisGroup != null){
+				if(hisGroup.time.length()>0){
+					time = hisGroup.time;
+				}
+				if(hisGroup.place.length()>0){
+					place = hisGroup.place;
+				}
+				if(hisGroup.instructor.length()>0){
+					instructor = hisGroup.instructor;
+				}
+				groupName = hisGroup.book;
+			}
+			pageContext.setAttribute("hgt", time);
+			pageContext.setAttribute("hgp", place);
+			pageContext.setAttribute("hgi", instructor);
 			%><p><i>
-			You have already signed in to a group: </i>'${fn:escapeXml(thisStudent.group)}'
+			You have already signed in to a group: </i>'${fn:escapeXml(groupName)}'
 		</p>
 		<p>
 		<b>Group details:</b>
 		</p>
 		<p>
-		Time: <b>${fn:escapeXml(hisGroup.time)}</b>
+		Time: <b>${fn:escapeXml(hgt)}</b>
 		</p>
 		<p>
-		Place: <b>${fn:escapeXml(hisGroup.place)}</b>
+		Place: <b>${fn:escapeXml(hgp)}</b>
 		</p>
 		<p>
-		Instructor: <b>${fn:escapeXml(hisGroup.instructor)}</b>
+		Instructor: <b>${fn:escapeXml(hgi)}</b>
 		</p>
 		<%
 			pageContext.setAttribute("test", thisStudent);
