@@ -102,16 +102,15 @@
     }
 		Student testS = ObjectifyService.ofy().cache(false).load().key(Key.create(theCourse, Student.class, user.getUserId())).now();
 		//Student testS = ObjectifyService.ofy().load().type(Student.class).id(user.getUserId()).now();
-		Group testG = ObjectifyService.ofy().load().type(Group.class).id(him.group).now();
-		if(testS == null && testG == null){
+		Group testG = ObjectifyService.ofy().cache(false).load().key(Key.create(theCourse, Group.class, testS.group)).now();
+		if(testS == null || testG == null){
 			%><p><i>
-			bad luck ! Hmmm... user.getUserId() is equal to student.id, since that's how we compare them below. But ofy().load().type(..).id(..).now() returns null ?!!
-		</i></p><p><i>
+			
 			That's both for student and Group. Ideas someone?</i>
 		</p><%
 		}else{
 			%><p><i>
-			One of them (at least) worked, yay!!</i>
+			Both of them worked, yay!!</i>
 		</p><%
 			pageContext.setAttribute("test", testS);
 		}	
