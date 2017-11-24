@@ -50,15 +50,7 @@
 	<%
 		// Find this student if he is already there
 		Student him = null;
-		Student test = ObjectifyService.ofy().load().type(Student.class).id(user.getUserId()).now();
-		if(test == null){
-			%><p>
-			bad luck ! Hmmm...
-		</p><%
-		}else{
 
-			pageContext.setAttribute("test", test);
-		}
 	
 		Key<Course> theCourse = Key.create(Course.class, courseName);
 		List<Student> students = ObjectifyService.ofy().load().type(Student.class) //We want only Students
@@ -108,7 +100,20 @@
             }		
         }
     }
-	
+		Student testS = ObjectifyService.ofy().load().type(Student.class).id(user.getUserId()).now();
+		Group testG = ObjectifyService.ofy().load().type(Group.class).id(him.group).now();
+		if(testS == null && testG == null){
+			%><p><i>
+			bad luck ! Hmmm... user.getUserId() is equal to student.id, since that's how we compare them below. But ofy().load().type(..).id(..).now() returns null ?!!
+		</i></p><p><i>
+			That's both for student and Group. Ideas someone?</i>
+		</p><%
+		}else{
+			%><p><i>
+			One of them (at least) worked, yay!!</i>
+		</p><%
+			pageContext.setAttribute("test", testS);
+		}	
 	//Group test = ObjectifyService.ofy().load().type(Group.class).id(him.group).now();
 	
 	
