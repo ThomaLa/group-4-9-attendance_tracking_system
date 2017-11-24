@@ -50,6 +50,16 @@
 	<%
 		// Find this student if he is already there
 		Student him = null;
+		Student test = ObjectifyService.ofy().load().type(Student.class).id(user.getUserId()).now();
+		if(test == null){
+			%><p>
+			bad luck !
+		</p><%
+		}else{
+
+			pageContext.setAttribute("test", test);
+		}
+	
 		Key<Course> theCourse = Key.create(Course.class, courseName);
 		List<Student> students = ObjectifyService.ofy().load().type(Student.class) //We want only Students
 				.ancestor(theCourse) // Anyone in this book
@@ -100,7 +110,7 @@
     }
 	
 	//Group test = ObjectifyService.ofy().load().type(Group.class).id(him.group).now();
-	//pageContext.setAttribute("test", test.instructor);
+	
 	
 	
 	List<Group> groups = ObjectifyService.ofy()
