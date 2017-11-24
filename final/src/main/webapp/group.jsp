@@ -53,7 +53,7 @@
 		Student test = ObjectifyService.ofy().load().type(Student.class).id(user.getUserId()).now();
 		if(test == null){
 			%><p>
-			bad luck !
+			bad luck ! Hmmm...
 		</p><%
 		}else{
 
