@@ -100,7 +100,8 @@
             }		
         }
     }
-		Student testS = ObjectifyService.ofy().load().type(Student.class).id(user.getUserId()).now();
+		Student testS = ObjectifyService.ofy().cache(false).load().key(Key.create(theCourse, Student.class, user.getUserId())).now();
+		//Student testS = ObjectifyService.ofy().load().type(Student.class).id(user.getUserId()).now();
 		Group testG = ObjectifyService.ofy().load().type(Group.class).id(him.group).now();
 		if(testS == null && testG == null){
 			%><p><i>
