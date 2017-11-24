@@ -31,9 +31,9 @@
     if (groupName == null) {
     	groupName = "NULL";
     }
+
 	pageContext.setAttribute("courseName", courseName);
-	pageContext.setAttribute("groupName", groupName);
-    
+	
 	UserService userService = UserServiceFactory.getUserService();
     User user = userService.getCurrentUser();
     if (user != null) {
@@ -67,6 +67,10 @@
 				</b></p>
 				<%
 			} else {
+				if(hisGroup != null)
+					groupName = hisGroup.book;
+				pageContext.setAttribute("groupName", groupName);
+
 				%>
 				<p>
 					Your current group is <b>${fn:escapeXml(groupName)}</b>. You may change it below. 
@@ -134,7 +138,7 @@
 								value="${fn:escapeXml(groupName)}" />
 						</div>
 						<div>
-							<input type="submit" value="Create a new group" />
+							<input type="submit" value="Reset an existing group or create a new one" />
 						</div>
 					</form>
 					<%
@@ -232,6 +236,7 @@
 			pageContext.setAttribute("hgt", time);
 			pageContext.setAttribute("hgp", place);
 			pageContext.setAttribute("hgi", instructor);
+			pageContext.setAttribute("groupName", groupName);
 			%><p><i>
 			You have already signed in to a group: </i>'${fn:escapeXml(groupName)}'
 		</p>
