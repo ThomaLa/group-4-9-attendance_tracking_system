@@ -38,6 +38,7 @@
     User user = userService.getCurrentUser();
     if (user != null) {
         pageContext.setAttribute("user", user);
+        
         //pageContext.setAttribute("admin", userService.isUserAdmin());
 %>
 
@@ -48,184 +49,201 @@
 	</p>
 	
 	<%
-		// Find this student if he is already there
-		Student him = null;
-
-	
+		// fetch student and his course in the database
 		Key<Course> theCourse = Key.create(Course.class, courseName);
-		List<Student> students = ObjectifyService.ofy().load().type(Student.class) //We want only Students
-				.ancestor(theCourse) // Anyone in this book
-				.order("-date") // Most recent first - date is indexed. 
-				.list();
-		if(userService.isUserAdmin() && students.isEmpty()) {
-			%>
-			<p>Group '${fn:escapeXml(groupName)}' has no student.</p>
-			<%
-	    } else {
-	    	int nStudents = students.size();
-	    	pageContext.setAttribute("nStudents", nStudents);
-    		if(userService.isUserAdmin()){
-    			%>
-    			<p>Students in total:  ${fn:escapeXml(nStudents)}</p>
-    			<%
-    		}
-      // Look at all of our students
-        for (Student student : students) {
-            String s,g;
-            if (student.student_email == null) {
-                s = "NULL";
-            } else {
-                s = student.student_email;
-                String student_id = student.id;
-                if (user != null && user.getUserId().equals(student_id)) {
-                    s += " (You)";
-                    him = student;
-                }
-            }
-            if (student.group == null){
-            	g = "NULL";
-            } else {
-            	g = student.group;
-            	//TODO add notice if this is current group
-            }
-            //g += " _"+student.id+"_";
-            pageContext.setAttribute("user", s);
-            pageContext.setAttribute("user_group", g);
-            if(userService.isUserAdmin()){
-            	%>
-            	<p>
-            		<b>- ${fn:escapeXml(user)}</b> is in group: <b>${fn:escapeXml(user_group)}</b>
-            	</p>
-            	<%
-            }		
-        }
-    }
-		Student testS = ObjectifyService.ofy().cache(false).load().key(Key.create(theCourse, Student.class, user.getUserId())).now();
-		//Student testS = ObjectifyService.ofy().load().type(Student.class).id(user.getUserId()).now();
-		Group testG = ObjectifyService.ofy().cache(false).load().key(Key.create(theCourse, Group.class, testS.group)).now();
-		if(testS == null || testG == null){
-			%><p><i>
+		Student thisStudent = ObjectifyService.ofy().cache(false).load().key(Key.create(theCourse, Student.class, user.getUserId())).now();
+		Group hisGroup = null;
+		if(thisStudent != null){
+			hisGroup = ObjectifyService.ofy().cache(false).load().key(Key.create(theCourse, Group.class, thisStudent.group)).now();
+		}
+		pageContext.setAttribute("thisStudent", thisStudent);
+		pageContext.setAttribute("hisGroup", hisGroup);
+	    
+		if(thisStudent == null || userService.isUserAdmin()){// need to choose a group or to update them
+			if(thisStudent == null){
+				%>
+				<p><b>
+				Please choose a course in the list below:
+				</b></p>
+				<%
+			} else {
+				%>
+				<p>
+					Your current group is <b>${fn:escapeXml(groupName)}</b>. You may change it below. 
+				</p>
+				<%
+			}
+		
+			List<Group> groups = ObjectifyService.ofy()
+					.load()
+					.type(Group.class)
+					.ancestor(theCourse)
+					.list();
 			
-			That's both for student and Group. Ideas someone?</i>
-		</p><%
+			String nGroups = " "+groups.size()+((groups.size()>1)?" groups":" group");
+			pageContext.setAttribute("nGroups", nGroups);
+			
+			%>
+			<p>Available groups in “${fn:escapeXml(courseName)}”:</p>
+			<p>This course has${fn:escapeXml(nGroups)}.</p>
+			<%
+			if (!groups.isEmpty()){
+		      // Look at all of our students
+			        for (Group group : groups) {
+			            String s = group.book;
+			            if (thisStudent != null && s.equals(groupName)){
+			            	s+= " (your current group)";
+			            }
+			            String t = " will be taught by " + group.instructor
+			            		+ " at time " + group.time
+			            		+ " at place " + group.place;
+			            
+			            /*if (group.groupNumber == -1) {
+			                s = "NULL";
+			            } else {
+			                s = "Group "+group.groupNumber;
+			                //TODO show which group he's in
+			            }*/
+			            pageContext.setAttribute("other_group", s);
+			            pageContext.setAttribute("other_group_description", t);
+			            %>
+			            <p><b>  - ${fn:escapeXml(other_group)}</b>${fn:escapeXml(other_group_description)}</p>
+			            <%
+			            
+			            	%>
+			            	<p>
+			            		<form action="/sign" method="post">
+			            		<div>
+			            			<input type="submit" value="Join this group" />
+			            		</div>
+			            		<input type="hidden" name="groupName"
+			            			value="${fn:escapeXml(other_group)}" />
+			            	</form>
+			            	</p>
+			            	<%
+			            
+			
+			    		}
+					}
+					// view of the Students belonging to the selected Group. 
+				if(userService.isUserAdmin()){
+					%>
+					<form action="/create" method="post">
+						<div>
+							<input type="text" name="groupName"
+								value="${fn:escapeXml(groupName)}" />
+						</div>
+						<div>
+							<input type="submit" value="Create a new group" />
+						</div>
+					</form>
+					<%
+					String time = "", place = "", instructor = "";
+					if(hisGroup != null){
+						time = hisGroup.time;
+						place = hisGroup.place;
+						instructor = hisGroup.instructor;
+					}
+					pageContext.setAttribute("groupTime",time);
+					pageContext.setAttribute("groupPlace",place);
+					pageContext.setAttribute("groupInstructor",instructor);
+					%>
+					<form action="/edit" method="post">
+						<p>
+							Edit current group (${fn:escapeXml(groupName)}) time/place/instructor
+						</p>
+						<div>
+							<input type="text" name="groupTime"
+								value="${fn:escapeXml(groupTime)}" />
+							<input type="text" name="groupPlace"
+								value="${fn:escapeXml(groupPlace)}" />
+							<input type="text" name="groupInstructor"
+								value="${fn:escapeXml(groupInstructor)}" />
+						</div>
+						<input type="hidden" name="groupName"
+			            			value="${fn:escapeXml(groupName)}" />
+						<div>
+							<input type="submit" value="Save changes" />
+						</div>
+					</form>
+					<%
+					
+						List<Student> students = ObjectifyService.ofy().load().type(Student.class) //We want only Students
+						.ancestor(theCourse) // Anyone in this book
+						.order("-date") // Most recent first - date is indexed. 
+						.list();
+				if(students.isEmpty()) {
+					%>
+					<p>Group '${fn:escapeXml(groupName)}' has no student.</p>
+					<%
+			    } else {
+			    	int nStudents = students.size();
+			    	pageContext.setAttribute("nStudents", nStudents);
+		    		
+		    			%>
+		    			<p>Students in total:  ${fn:escapeXml(nStudents)}</p>
+		    			<%
+		    		
+		      // Look at all of our students
+			        for (Student student : students) {
+			            String s,g;
+			            if (student.student_email == null) {
+			                s = "NULL";
+			            } else {
+			                s = student.student_email;
+			                String student_id = student.id;
+			                if (user != null && user.getUserId().equals(student_id)) {
+			                    s += " (You)";
+			                }
+			            }
+			            if (student.group == null){
+			            	g = "NULL";
+			            } else {
+			            	g = student.group;
+			            }
+			            //g += " _"+student.id+"_";
+			            pageContext.setAttribute("user", s);
+			            pageContext.setAttribute("user_group", g);
+			            	%>
+			            	<p>
+			            		<b>- ${fn:escapeXml(user)}</b> is in group: <b>${fn:escapeXml(user_group)}</b>
+			            	</p>
+			            	<%
+			            		
+		            }
+		        }
+				}
+			%>
+			<%
 		}else{
+			
 			%><p><i>
-			Both of them worked, yay!!</i>
-		</p><%
-			pageContext.setAttribute("test", testS);
+			You have already signed in to a group: </i>'${fn:escapeXml(thisStudent.group)}'
+		</p>
+		<p>
+		<b>Group details:</b>
+		</p>
+		<p>
+		Time: <b>${fn:escapeXml(hisGroup.time)}</b>
+		</p>
+		<p>
+		Place: <b>${fn:escapeXml(hisGroup.place)}</b>
+		</p>
+		<p>
+		Instructor: <b>${fn:escapeXml(hisGroup.instructor)}</b>
+		</p>
+		<%
+			pageContext.setAttribute("test", thisStudent);
 		}	
+		
+		
+    
+		
 	//Group test = ObjectifyService.ofy().load().type(Group.class).id(him.group).now();
 	
 	
 	
-	List<Group> groups = ObjectifyService.ofy()
-			.load()
-			.type(Group.class)
-			.ancestor(theCourse)
-			.list();
 	
-	String nGroups = " "+groups.size()+((groups.size()>1)?" groups":" group");
-	pageContext.setAttribute("nGroups", nGroups);
-	Group hisGroup = null;
-	if(him == null){
-		%>
-		<p>
-			Please choose your group in the following list:
-		</p>
-		<%
-	} else {
-		%>
-		<p>
-			Your current group is <b>${fn:escapeXml(groupName)}</b>. You may change it below. 
-		</p>
-		<%
-	}
-	%>
-	<p>Available groups in “${fn:escapeXml(courseName)}”:</p>
-	<p>This course has${fn:escapeXml(nGroups)}.</p>
-	<%
-	if (!groups.isEmpty()){
-      // Look at all of our students
-	        for (Group group : groups) {
-	            String s = group.book;
-	            if (him != null && s.equals(groupName)){
-	            	hisGroup = group;
-	            	s+= " (your current group)";
-	            }
-	            String t = " will be taught by " + group.instructor
-	            		+ " at time " + group.time
-	            		+ " at place " + group.place;
-	            
-	            /*if (group.groupNumber == -1) {
-	                s = "NULL";
-	            } else {
-	                s = "Group "+group.groupNumber;
-	                //TODO show which group he's in
-	            }*/
-	            pageContext.setAttribute("other_group", s);
-	            pageContext.setAttribute("other_group_description", t);
-	            %>
-	            <p><b>  - ${fn:escapeXml(other_group)}</b>${fn:escapeXml(other_group_description)}</p>
-	            <%
-	            
-	            	%>
-	            	<p>
-	            		<form action="/sign" method="post">
-	            		<div>
-	            			<input type="submit" value="Join this group" />
-	            		</div>
-	            		<input type="hidden" name="groupName"
-	            			value="${fn:escapeXml(other_group)}" />
-	            	</form>
-	            	</p>
-	            	<%
-	            
-	
-	    		}
-			}
-			// view of the Students belonging to the selected Group. 
-		if(userService.isUserAdmin()){
-			%>
-			<form action="/create" method="post">
-				<div>
-					<input type="text" name="groupName"
-						value="${fn:escapeXml(groupName)}" />
-				</div>
-				<div>
-					<input type="submit" value="Create a new group" />
-				</div>
-			</form>
-			<%
-			String time = "", place = "", instructor = "";
-			if(hisGroup != null){
-				time = hisGroup.time;
-				place = hisGroup.place;
-				instructor = hisGroup.instructor;
-			}
-			pageContext.setAttribute("groupTime",time);
-			pageContext.setAttribute("groupPlace",place);
-			pageContext.setAttribute("groupInstructor",instructor);
-			%>
-			<form action="/edit" method="post">
-				<p>
-					Edit current group (${fn:escapeXml(groupName)}) time/place/instructor
-				</p>
-				<div>
-					<input type="text" name="groupTime"
-						value="${fn:escapeXml(groupTime)}" />
-					<input type="text" name="groupPlace"
-						value="${fn:escapeXml(groupPlace)}" />
-					<input type="text" name="groupInstructor"
-						value="${fn:escapeXml(groupInstructor)}" />
-				</div>
-				<input type="hidden" name="groupName"
-	            			value="${fn:escapeXml(groupName)}" />
-				<div>
-					<input type="submit" value="Save changes" />
-				</div>
-			</form>
-			<%
-		}
 
     } else {
 %>
