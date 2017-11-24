@@ -99,6 +99,10 @@
         }
     }
 	
+	//Group test = ObjectifyService.ofy().load().type(Group.class).id(him.group).now();
+	//pageContext.setAttribute("test", test.instructor);
+	
+	
 	List<Group> groups = ObjectifyService.ofy()
 			.load()
 			.type(Group.class)
@@ -167,7 +171,7 @@
 			// view of the Students belonging to the selected Group. 
 		if(userService.isUserAdmin()){
 			%>
-			<form action="/sign" method="post">
+			<form action="/create" method="post">
 				<div>
 					<input type="text" name="groupName"
 						value="${fn:escapeXml(groupName)}" />
