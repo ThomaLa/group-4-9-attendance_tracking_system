@@ -54,7 +54,7 @@
 		Student thisStudent = ObjectifyService.ofy().cache(false).load().key(Key.create(theCourse, Student.class, user.getUserId())).now();
 		Group hisGroup = null;
 		if(thisStudent != null){
-			hisGroup = ObjectifyService.ofy().cache(false).load().key(Key.create(theCourse, Group.class, thisStudent.group)).now();
+			hisGroup = thisStudent.getGroup(theCourse);
 		}
 		pageContext.setAttribute("thisStudent", thisStudent);
 		pageContext.setAttribute("hisGroup", hisGroup);
