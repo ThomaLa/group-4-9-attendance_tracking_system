@@ -15,7 +15,7 @@
  */
 
 //[START all]
-package com.example.group;
+package com.ase.servlet;
 
 import java.io.IOException;
 import java.util.List;
@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ase.entity.Group;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
@@ -49,7 +50,7 @@ public class CreateGroupServlet extends HttpServlet {
     
     Group group = new Group(groupName);
     if(userService.isUserAdmin()) {
-        ObjectifyService.ofy().save().entity(group).now();
+        //ObjectifyService.ofy().save().entity(group).now();
     }
     resp.sendRedirect("/group.jsp?groupName=" + groupName);
   }

@@ -15,7 +15,7 @@
  */
 
 //[START all]
-package com.example.group;
+package com.ase.servlet;
 
 import java.io.IOException;
 import java.util.List;
@@ -24,6 +24,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ase.entity.Group;
+import com.ase.entity.Student;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
@@ -46,19 +48,13 @@ public class EditGroupServlet extends HttpServlet {
     UserService userService = UserServiceFactory.getUserService();
     User user = userService.getCurrentUser();  // Find out who the user is.
 
-    String groupName = req.getParameter("groupName");
-    if (user != null) {
-    	student = new Student(groupName, user.getUserId(), user.getEmail());
-    } else {
-    	student = new Student(groupName);
+    if (user == null) {
+    	student = new Student( user.getEmail());
     }
-    String time = req.getParameter("groupTime");
-    String place = req.getParameter("groupPlace");
-    String instructor = req.getParameter("groupInstructor");
-    Group group = new Group(groupName, time, place, instructor);
-    ObjectifyService.ofy().save().entity(group).now();
     
-    resp.sendRedirect("/group.jsp?groupName=" + groupName);
+    //ObjectifyService.ofy().save().entity(group).now();
+    
+  //  resp.sendRedirect("/group.jsp?groupName=" + groupName);
   }
 }
 //[END all]

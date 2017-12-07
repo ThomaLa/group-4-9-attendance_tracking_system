@@ -3,6 +3,7 @@
 <%@ page import="com.google.appengine.api.users.User"%>
 <%@ page import="com.google.appengine.api.users.UserService"%>
 <%@ page import="com.google.appengine.api.users.UserServiceFactory"%>
+<%@ page import="com.googlecode.objectify.LoadResult"%>
 
 <%-- //[START imports]--%>
 <%@ page import="com.ase.entity.Student"%>
@@ -18,35 +19,19 @@
 <head>
 <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
 </head>
-
+	<%
+	UserService userService = UserServiceFactory.getUserService();
+    User user = userService.getCurrentUser();
+	%>
 <body>
 
-	<%
-	
-		UserService userService = UserServiceFactory.getUserService();
-	    User user = userService.getCurrentUser();
+	Welcome <br/>
 
-	%>
 
 	<p>
 		Hello, ${fn:escapeXml(user.nickname)}! (You can <a
 			href="<%= userService.createLogoutURL(request.getRequestURI()) %>">sign
 			out</a> here.)
-		
-	</p>
-	
-	<%
-		Student student = ObjectifyService.ofy().cache(false).load().key(Key.create( Student.class, userService.getCurrentUser().getEmail())).now();
-		String email = "Null";
-		if(student!=null){
-			email = student.email;
-			
-		}
-		 pageContext.setAttribute("email", email);
-	%>
-	
-	Hello,  ${fn:escapeXml(email)}  Have a nice day!
-
 </body>
 </html>
 <%-- //[END all]--%>

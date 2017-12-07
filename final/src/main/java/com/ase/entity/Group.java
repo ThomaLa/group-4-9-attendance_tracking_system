@@ -15,10 +15,16 @@
  */
 
 //[START all]
-package com.example.group;
+package com.ase.entity;
 
+import java.util.ArrayList;
+import java.util.Date;
+
+import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Index;
+import com.googlecode.objectify.annotation.Load;
 
 /**
  * The @Entity tells Objectify about our entity.  We also register it in
@@ -27,7 +33,36 @@ import com.googlecode.objectify.annotation.Id;
  * This is never actually created, but gives a hint to Objectify about our Ancestor key.
  */
 @Entity
-public class Course {
-  @Id public String course;
+public class Group {
+	@Id public String name;
+
+	//public int groupNumber = -1;
+	public String place;
+	public Ref<Tutor> tutor;
+	public @Load Ref<ArrayList<Student>> students;
+	public @Load Ref<ArrayList<TutorialSession>> sessions;
+
+	@Index public Date date;
+
+
+	/**
+	 * CAUTION, here we define groupName and NOT courseName
+	 */
+	public Group(String groupName) {
+		if( groupName != null ) {
+			name = groupName;
+		} else {
+			name = "NULL";
+		}
+	}
+
+	/**
+	 * complete constructor
+	 */
+	public Group(String groupName, ArrayList<TutorialSession> sessions, Tutor instructor) {
+		this(groupName);
+		this.sessions.create(sessions);
+		this.tutor = null;
+	}
 }
 //[END all]

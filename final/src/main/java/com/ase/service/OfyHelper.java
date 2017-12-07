@@ -14,14 +14,15 @@
  * limitations under the License.
  */
 //[START all]
-package com.example.group;
+package com.ase.service;
 
-import com.googlecode.objectify.Objectify;
-import com.googlecode.objectify.ObjectifyFactory;
-import com.googlecode.objectify.ObjectifyService;
-
-import javax.servlet.ServletContextListener;
 import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
+
+import com.ase.entity.Group;
+import com.ase.entity.Student;
+import com.ase.entity.Tutor;
+import com.googlecode.objectify.ObjectifyService;
 
 /**
  * OfyHelper, a ServletContextListener, is setup in web.xml to run before a JSP is run.  This is
@@ -29,11 +30,9 @@ import javax.servlet.ServletContextEvent;
  **/
 public class OfyHelper implements ServletContextListener {
   public void contextInitialized(ServletContextEvent event) {
-    // This will be invoked as part of a warmup request, or the first user request if no warmup
-    // request.
-	ObjectifyService.register(Course.class);
     ObjectifyService.register(Group.class);
     ObjectifyService.register(Student.class);
+    ObjectifyService.register(Tutor.class);
   }
 
   public void contextDestroyed(ServletContextEvent event) {

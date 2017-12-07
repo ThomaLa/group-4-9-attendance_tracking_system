@@ -15,19 +15,20 @@
  */
 
 //[START all]
-package com.example.group;
+package com.ase.servlet;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ase.entity.Student;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.googlecode.objectify.ObjectifyService;
+import com.googlecode.objectify.Key;
 
 /**
  * Form Handling Servlet
@@ -42,21 +43,23 @@ public class SignInGroupServlet extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
     Student student;
-
     UserService userService = UserServiceFactory.getUserService();
     User user = userService.getCurrentUser();  // Find out who the user is.
 
-    String groupName = req.getParameter("groupName");
     if (user != null) {
-    	student = new Student(groupName, user.getUserId(), user.getEmail());
-    } else {
-    	student = new Student(groupName);
-    }
-    Group group = new Group(groupName);
+    	student = new Student(user.getEmail());
+    	ObjectifyService.ofy().save().entity(student).now();
+    }  
     
-    ObjectifyService.ofy().save().entity(student).now();
+    if(user != null)
+    	student = ObjectifyService.ofy().cache(false).load().key(Key.create( Student.class, user.getEmail())).now();
+    else
+    	student = null;
+    if(student!=null)
+    	resp.sendRedirect("/home.jsp?studentemail="+student.email);
+    else
+    	resp.sendRedirect("/home.jsp?studentemail=null");
     
-    resp.sendRedirect("/group.jsp?groupName=" + groupName);
   }
 }
 //[END all]
