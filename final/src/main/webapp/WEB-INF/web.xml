@@ -15,8 +15,8 @@
     </servlet>
     
     <servlet>
-      <servlet-name>create</servlet-name>
-      <servlet-class>com.ase.servlet.CreateGroupServlet</servlet-class>
+      <servlet-name>tutorgroup</servlet-name>
+      <servlet-class>com.ase.servlet.TutorGroupServlet</servlet-class>
     </servlet>
 
 	<servlet-mapping>
@@ -30,10 +30,14 @@
     </servlet-mapping>
 
     <servlet-mapping>
-      <servlet-name>create</servlet-name>
-      <url-pattern>/create</url-pattern>
+      <servlet-name>tutorgroup</servlet-name>
+      <url-pattern>/tutor/create</url-pattern>
     </servlet-mapping>
-
+    
+    <servlet-mapping>
+      <servlet-name>tutorgroup</servlet-name>
+      <url-pattern>/tutor/showgroup</url-pattern>
+    </servlet-mapping>
 
     <welcome-file-list>
         <welcome-file>home.jsp</welcome-file>

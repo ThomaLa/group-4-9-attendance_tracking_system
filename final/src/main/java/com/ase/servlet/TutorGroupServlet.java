@@ -20,14 +20,18 @@ package com.ase.servlet;
 import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.ase.entity.Group;
+import com.ase.entity.Tutor;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
+import com.googlecode.objectify.Key;
 import com.googlecode.objectify.ObjectifyService;
 
 /**
@@ -37,22 +41,46 @@ import com.googlecode.objectify.ObjectifyService;
  * {@link #doPost(<#HttpServletRequest req#>, <#HttpServletResponse resp#>)} which takes the form
  * data and saves it.
  */
-public class CreateGroupServlet extends HttpServlet {
+public class TutorGroupServlet extends HttpServlet {
 
-  // Process the http POST of the form
   @Override
   public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
     
-    UserService userService = UserServiceFactory.getUserService();
-    User user = userService.getCurrentUser();  // Find out who the user is.
-
+	Tutor tutor = ObjectifyService.ofy().cache(false).load()
+			.key(Key.create(Tutor.class, UserServiceFactory.getUserService().getCurrentUser().getEmail())).now();
+    
     String groupName = req.getParameter("groupName");
     
     Group group = new Group(groupName);
-    if(userService.isUserAdmin()) {
-        //ObjectifyService.ofy().save().entity(group).now();
-    }
-    resp.sendRedirect("/group.jsp?groupName=" + groupName);
+    group.setTutor(tutor);
+    tutor.addGroup(group);
+    
+    ObjectifyService.ofy().save().entity(group).now();
+    ObjectifyService.ofy().save().entity(tutor).now();
+
+    resp.sendRedirect("/tutor/showgroup");
   }
+  
+  @Override
+  public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+		UserService userService = UserServiceFactory.getUserService();
+		User user = userService.getCurrentUser();
+		List<Group> groups = ObjectifyService.ofy()
+				.load()
+				.type(Group.class)
+				.list();
+		Tutor tutor = ObjectifyService.ofy().cache(false).load()
+				.key(Key.create(Tutor.class, userService.getCurrentUser().getEmail())).now();
+		String email = "Null";
+		if (tutor != null) {
+			email = tutor.getEmail();
+		}
+		req.setAttribute("logouturl",userService.createLogoutURL(req.getRequestURI()));
+		req.setAttribute("email", email);
+		req.setAttribute("groups", groups);
+	  
+	    req.getRequestDispatcher("/tutor/showgroup.jsp").forward(req, resp); 
+  }
+
 }
-//[END all]
+

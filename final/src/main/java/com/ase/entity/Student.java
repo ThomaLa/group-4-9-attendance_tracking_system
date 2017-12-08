@@ -25,8 +25,7 @@ import com.googlecode.objectify.annotation.Load;
 @Entity
 public class Student{
 
-
-@Id public String email;
+  @Id public String email;
   public @Load Ref<Group> group;
 
   public Student(){
