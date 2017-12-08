@@ -36,7 +36,6 @@
 		<th>
 		<td>id</td>
 		<td>Group Name</td>
-		<td>Tutor</td>
 		</th>
 		<c:forEach var="group" items="${groups}" varStatus="count">
 			<tr>
