@@ -28,10 +28,13 @@
 			href="${fn:escapeXml(logouturl)}">sign out</a> here.)
 	</p>
 
-	Hello, ${fn:escapeXml(email)} Have a nice day!
+	Hello, ${fn:escapeXml(student.email)} Have a nice day!
 	<hr />
-	<h4>List of Groups!</h4>
-	<form action="/tutor/group" method="post">
+	
+		Current group is:  ${fn:escapeXml(currentGroup)}
+	<hr />
+	<h4>Join a group!</h4>
+	<form action="/student/group" method="post">
 		<table>
 		<tr>
 			<th>id</th>
@@ -43,21 +46,13 @@
 					<td>${count.count}</td>
 					<td>${group.name}</td>
 					<td><button type="submit"
-						value="${group.name}" name="groupName" >Delete</button></td>
+						value="${group.name}" name="groupName" >Join</button></td>
 				</tr>
 			</c:forEach>
 		</table>
-		<input type="hidden" name="action" value="delete" />
+		<input type="hidden" name="action" value="join" />
 	</form>
 	<hr />
-	Create a group here !
-	<form action="/tutor/group" method="post">
-		<div>
-			<input type="text" name="groupName"
-				value="${fn:escapeXml(groupName)}" /> <input type="submit"
-				value="Reset an existing group or create a new one" />
-		</div>
-	</form>
 
 </body>
 </html>

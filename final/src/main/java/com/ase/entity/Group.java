@@ -18,13 +18,11 @@
 package com.ase.entity;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
-import com.googlecode.objectify.annotation.Load;
 
 /**
  * The @Entity tells Objectify about our entity.  We also register it in
@@ -36,8 +34,8 @@ import com.googlecode.objectify.annotation.Load;
 public class Group {
 	@Id public String name;
 	public Ref<Tutor> tutor;
-	public ArrayList<Student> students = new ArrayList<Student>();
-	public ArrayList<TutorialSession> sessions = new ArrayList<TutorialSession>();
+	@Index public ArrayList<Ref<Student>> students = new ArrayList<Ref<Student>>();
+	@Index public ArrayList<Ref<TutorialSession>> sessions = new ArrayList<Ref<TutorialSession>>();
 
 	public String getName() {
 		return name;
@@ -52,21 +50,21 @@ public class Group {
 	}
 
 	public void setTutor(Tutor tutor) {
-		Ref.create(tutor);
+		this.tutor = Ref.create(tutor);
 	}
 
-	public ArrayList<Student> getStudents() {
+	public ArrayList<Ref<Student>> getStudents() {
 		return students;
 	}
 
 	public void addStudent(Student student) {
-		this.students.add(student);
+		this.students.add(Ref.create(student));
 	}
 	
 	public void removeStudent(Student student)
 	{
 		for(int i=0;i<students.size();i++){
-			if(students.get(i).getEmail().equals(student.getEmail())){
+			if(students.get(i).get().getEmail().equals(student.getEmail())){
 				students.remove(i);
 				break;
 			}
@@ -76,19 +74,19 @@ public class Group {
 	public void removeSession(TutorialSession session)
 	{
 		for(int i=0;i<sessions.size();i++){
-			if(sessions.get(i).id.equals(session.id)){
+			if(sessions.get(i).get().id.equals(session.id)){
 				sessions.remove(i);
 				break;
 			}
 		}
 	}
 
-	public ArrayList<TutorialSession> getSessions() {
+	public ArrayList<Ref<TutorialSession>> getSessions() {
 		return sessions;
 	}
 
 	public void addTutorialSession(TutorialSession session) {
-		this.sessions.add(session);
+		this.sessions.add(Ref.create(session));
 	}
 
 	/**

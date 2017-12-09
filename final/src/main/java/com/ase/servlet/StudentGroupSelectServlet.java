@@ -20,15 +20,14 @@ package com.ase.servlet;
 import java.io.IOException;
 import java.util.List;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.ase.entity.Group;
+import com.ase.entity.Student;
 import com.ase.entity.Tutor;
-import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.googlecode.objectify.Key;
@@ -40,56 +39,40 @@ import com.googlecode.objectify.ObjectifyService;
  * one method {@link #doPost(<#HttpServletRequest req#>, <#HttpServletResponse
  * resp#>)} which takes the form data and saves it.
  */
-public class TutorGroupServlet extends HttpServlet {
+public class StudentGroupSelectServlet extends HttpServlet {
 
 	@Override
 	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
-		Tutor tutor = ObjectifyService.ofy().cache(false).load()
-				.key(Key.create(Tutor.class, UserServiceFactory.getUserService().getCurrentUser().getEmail())).now();
+		Student student = ObjectifyService.ofy().cache(false).load()
+				.key(Key.create(Student.class, UserServiceFactory.getUserService().getCurrentUser().getEmail())).now();
 
 		String groupName = req.getParameter("groupName");
-		String action = req.getParameter("action");
-
-		// Same post does deletion also !
-		if (action != null && action.equals("delete")) {
-			// Group deleteThisGroup =
-			// ObjectifyService.ofy().cache(false).load().entity(arg0)
-			// .key(Key.create(Group.class,
-			// req.getParameter("groupName"))).now();
-			Group deleteThisGroup = ObjectifyService.ofy().cache(false).load().type(Group.class).id(req.getParameter("groupName"))
-					.now();
-			if (deleteThisGroup != null)
-				ObjectifyService.ofy().cache(false).delete().type(Group.class).id(req.getParameter("groupName")).now();
-			resp.sendRedirect("/tutor/showgroup");
-			return;
-		}
-
-		Group group = new Group(groupName);
-		group.setTutor(tutor);
-		tutor.addGroup(group);
-
+		String action = req.getParameter("action");	
+		
+		Group group = ObjectifyService.ofy().cache(false).load().type(Group.class).id(groupName).now();
+		student.setGroup(group);
+		group.addStudent(student);
 		ObjectifyService.ofy().save().entity(group).now();
-		ObjectifyService.ofy().save().entity(tutor).now();
-
-		resp.sendRedirect("/tutor/showgroup");
+		ObjectifyService.ofy().save().entity(student).now();
+		
+		resp.sendRedirect("/student/group");
 	}
 
 	@Override
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
 		UserService userService = UserServiceFactory.getUserService();
 		List<Group> groups = ObjectifyService.ofy().cache(false).load().type(Group.class).list();
-		Tutor tutor = ObjectifyService.ofy().cache(false).load()
-				.key(Key.create(Tutor.class, userService.getCurrentUser().getEmail())).now();
-		String email = "Null";
-		if (tutor != null) {
-			email = tutor.getEmail();
-		}
 		req.setAttribute("logouturl", userService.createLogoutURL(req.getRequestURI()));
-		req.setAttribute("email", email);
+		Student student =  ObjectifyService.ofy().cache(false).load().type(Student.class).id( UserServiceFactory.getUserService().getCurrentUser().getEmail()).now();
+		req.setAttribute("student",student);
 		req.setAttribute("groups", groups);
-
-		req.getRequestDispatcher("/tutor/showgroup.jsp").forward(req, resp);
+		if(student.getGroup()!=null){
+			req.setAttribute("currentGroup", student.getGroup().getName());
+		}else{
+			req.setAttribute("currentGroup", "Not Assigned.");
+		}
+		req.getRequestDispatcher("/student/joingroup.jsp").forward(req, resp);
 	}
 
 }

@@ -37,9 +37,11 @@ public class Student{
   }
   
   public void setGroup(Group group){
-	 Ref.create(group);
+	  this.group = Ref.create(group);
   }
   public Group getGroup() {
+	  if(group==null)
+		  return null;
 	  return group.get();
   }
   

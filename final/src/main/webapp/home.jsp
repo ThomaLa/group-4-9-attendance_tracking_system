@@ -19,19 +19,12 @@
 <head>
 <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
 </head>
-	<%
-	UserService userService = UserServiceFactory.getUserService();
-    User user = userService.getCurrentUser();
-	%>
 <body>
-
-	Welcome <br/>
-
-
-	<p>
-		Hello, ${fn:escapeXml(user.nickname)}! (You can <a
-			href="<%= userService.createLogoutURL(request.getRequestURI()) %>">sign
-			out</a> here.)
+	<center>
+		Welcome <br /> I'm a <a href="/student/group">Student</a> <br /> 
+		I'm a <a href="/tutor/showgroup">Tutor</a>
+		<br />
+	</center>
 </body>
 </html>
 <%-- //[END all]--%>
