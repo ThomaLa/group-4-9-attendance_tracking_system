@@ -1,68 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
 
-<!-- [START standard_mappings] -->
-    <servlet>
-      <servlet-name>sign</servlet-name>
-      <servlet-class>com.ase.servlet.SignInGroupServlet</servlet-class>
-    </servlet>
-    
-    <servlet>
-      <servlet-name>edit</servlet-name>
-      <servlet-class>com.ase.servlet.EditGroupServlet</servlet-class>
-    </servlet>
-    
-    <servlet>
-      <servlet-name>tutorgroup</servlet-name>
-      <servlet-class>com.ase.servlet.TutorGroupServlet</servlet-class>
-    </servlet>
-    
-     <servlet>
-      <servlet-name>studentgroup</servlet-name>
-      <servlet-class>com.ase.servlet.StudentGroupSelectServlet</servlet-class>
-    </servlet>
+	<!-- [START standard_mappings] -->
+	<servlet>
+		<servlet-name>tutorgroup</servlet-name>
+		<servlet-class>com.ase.servlet.TutorGroupServlet</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>studentgroup</servlet-name>
+		<servlet-class>com.ase.servlet.StudentGroupSelectServlet</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>RestletServlet</servlet-name>
+		<servlet-class>org.restlet.ext.servlet.ServerServlet</servlet-class>
+		<init-param>
+			<param-name>org.restlet.application</param-name>
+			<param-value>com.ase.restlet.route.Route</param-value>
+		</init-param>
+	</servlet>
 
 	<servlet-mapping>
-      <servlet-name>sign</servlet-name>
-      <url-pattern>/sign</url-pattern>
-    </servlet-mapping>
-    
-    <servlet-mapping>
-      <servlet-name>edit</servlet-name>
-      <url-pattern>/edit</url-pattern>
-    </servlet-mapping>
+		<servlet-name>RestletServlet</servlet-name>
+		<url-pattern>/api/*</url-pattern>
+	</servlet-mapping>
 
-    <servlet-mapping>
-      <servlet-name>tutorgroup</servlet-name>
-      <url-pattern>/tutor/group</url-pattern>
-    </servlet-mapping>
-    
-    
-     <servlet-mapping>
-      <servlet-name>studentgroup</servlet-name>
-      <url-pattern>/student/group</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-      <servlet-name>tutorgroup</servlet-name>
-      <url-pattern>/tutor/showgroup</url-pattern>
-    </servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>tutorgroup</servlet-name>
+		<url-pattern>/tutor/group</url-pattern>
+	</servlet-mapping>
 
-    <welcome-file-list>
-        <welcome-file>home.jsp</welcome-file>
-    </welcome-file-list>
-<!-- [END standard_mappings] -->
 
-<!-- [START Objectify] -->
-    <filter>
-      <filter-name>ObjectifyFilter</filter-name>
-      <filter-class>com.googlecode.objectify.ObjectifyFilter</filter-class>
-    </filter>
-    <filter-mapping>
-      <filter-name>ObjectifyFilter</filter-name>
-      <url-pattern>/*</url-pattern>
-    </filter-mapping>
+	<servlet-mapping>
+		<servlet-name>studentgroup</servlet-name>
+		<url-pattern>/student/group</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>tutorgroup</servlet-name>
+		<url-pattern>/tutor/showgroup</url-pattern>
+	</servlet-mapping>
+
+	<welcome-file-list>
+		<welcome-file>home.jsp</welcome-file>
+	</welcome-file-list>
+	<!-- [END standard_mappings] -->
+
+	<!-- [START Objectify] -->
+	<filter>
+		<filter-name>ObjectifyFilter</filter-name>
+		<filter-class>com.googlecode.objectify.ObjectifyFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>ObjectifyFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
 	<filter>
 		<filter-name>SecurityFilter</filter-name>
 		<filter-class>com.ase.filter.SecurityFilter</filter-class>
@@ -71,8 +65,8 @@
 		<filter-name>SecurityFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-    <listener>
-      <listener-class>com.ase.service.OfyHelper</listener-class>
-    </listener>
-<!-- [END Objectify] -->
+	<listener>
+		<listener-class>com.ase.service.OfyHelper</listener-class>
+	</listener>
+	<!-- [END Objectify] -->
 </web-app>

@@ -27,11 +27,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.ase.entity.Group;
 import com.ase.entity.Student;
-import com.ase.entity.Tutor;
+import com.ase.service.BusinessLogic;
+import com.ase.service.impl.BusinessLogicImpl;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
-import com.googlecode.objectify.Key;
-import com.googlecode.objectify.ObjectifyService;
 
 /**
  * Form Handling Servlet Most of the action for this sample is in
@@ -41,30 +40,23 @@ import com.googlecode.objectify.ObjectifyService;
  */
 public class StudentGroupSelectServlet extends HttpServlet {
 
+	BusinessLogic businessLogic = new BusinessLogicImpl();
+	
 	@Override
 	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
-		Student student = ObjectifyService.ofy().cache(false).load()
-				.key(Key.create(Student.class, UserServiceFactory.getUserService().getCurrentUser().getEmail())).now();
-
 		String groupName = req.getParameter("groupName");
-		String action = req.getParameter("action");	
-		
-		Group group = ObjectifyService.ofy().cache(false).load().type(Group.class).id(groupName).now();
-		student.setGroup(group);
-		group.addStudent(student);
-		ObjectifyService.ofy().save().entity(group).now();
-		ObjectifyService.ofy().save().entity(student).now();
-		
+		businessLogic.joinStudentToGroup(UserServiceFactory.getUserService().getCurrentUser(), groupName);
 		resp.sendRedirect("/student/group");
 	}
 
 	@Override
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
 		UserService userService = UserServiceFactory.getUserService();
-		List<Group> groups = ObjectifyService.ofy().cache(false).load().type(Group.class).list();
+		List<Group> groups = businessLogic.getAllGroups();
+		Student student = businessLogic.getStudent(userService.getCurrentUser());
 		req.setAttribute("logouturl", userService.createLogoutURL(req.getRequestURI()));
-		Student student =  ObjectifyService.ofy().cache(false).load().type(Student.class).id( UserServiceFactory.getUserService().getCurrentUser().getEmail()).now();
+
 		req.setAttribute("student",student);
 		req.setAttribute("groups", groups);
 		if(student.getGroup()!=null){
