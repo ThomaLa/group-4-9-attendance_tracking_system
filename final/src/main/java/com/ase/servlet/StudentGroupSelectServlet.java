@@ -27,8 +27,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.ase.entity.Group;
 import com.ase.entity.Student;
-import com.ase.service.BusinessLogic;
-import com.ase.service.impl.BusinessLogicImpl;
+import com.ase.service.GroupService;
+import com.ase.service.StudentTutorManagementService;
+import com.ase.service.impl.GroupServiceImpl;
+import com.ase.service.impl.StudentTutorManagementServiceImpl;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 
@@ -40,21 +42,22 @@ import com.google.appengine.api.users.UserServiceFactory;
  */
 public class StudentGroupSelectServlet extends HttpServlet {
 
-	BusinessLogic businessLogic = new BusinessLogicImpl();
+	StudentTutorManagementService studentTutorService = new StudentTutorManagementServiceImpl();
+	GroupService groupService = new GroupServiceImpl();
 	
 	@Override
 	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
 		String groupName = req.getParameter("groupName");
-		businessLogic.joinStudentToGroup(UserServiceFactory.getUserService().getCurrentUser(), groupName);
+		groupService.joinStudentToGroup(UserServiceFactory.getUserService().getCurrentUser(), groupName);
 		resp.sendRedirect("/student/group");
 	}
 
 	@Override
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
 		UserService userService = UserServiceFactory.getUserService();
-		List<Group> groups = businessLogic.getAllGroups();
-		Student student = businessLogic.getStudent(userService.getCurrentUser());
+		List<Group> groups = groupService.getAllGroups();
+		Student student = studentTutorService.getStudent(userService.getCurrentUser());
 		req.setAttribute("logouturl", userService.createLogoutURL(req.getRequestURI()));
 
 		req.setAttribute("student",student);

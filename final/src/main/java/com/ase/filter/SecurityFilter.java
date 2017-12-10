@@ -11,19 +11,15 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.ase.entity.Student;
-import com.ase.entity.Tutor;
-import com.ase.service.BusinessLogic;
-import com.ase.service.impl.BusinessLogicImpl;
+import com.ase.service.StudentTutorManagementService;
+import com.ase.service.impl.StudentTutorManagementServiceImpl;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
-import com.googlecode.objectify.Key;
-import com.googlecode.objectify.ObjectifyService;
 
 public class SecurityFilter implements Filter {
 
 	FilterConfig filterConfig = null;
-	BusinessLogic businessLogic = new BusinessLogicImpl();
+	StudentTutorManagementService studentTutorService = new StudentTutorManagementServiceImpl();
 	
 	public void init(FilterConfig filterConfig) throws ServletException {
 		this.filterConfig = filterConfig;
@@ -51,7 +47,7 @@ public class SecurityFilter implements Filter {
 					servletResponse.getWriter()
 					.println("<p>Access Denied.</p><p>Please login with appropriate credentials !<a href=\"" + userService.createLoginURL(thisUrl) + "\">sign in</a>.</p>");
 				}else{		
-					businessLogic.createTutor( userService.getCurrentUser().getEmail());
+					studentTutorService.createTutor( userService.getCurrentUser().getEmail());
 					filterChain.doFilter(servletRequest, servletResponse);
 				}
 			}
@@ -62,7 +58,7 @@ public class SecurityFilter implements Filter {
 				servletResponse.getWriter()
 						.println("<p>Please <a href=\"" + userService.createLoginURL(thisUrl) + "\">sign in</a>.</p>");
 			} else {
-				businessLogic.createStudent(userService.getCurrentUser().getEmail());
+				studentTutorService.createStudent(userService.getCurrentUser().getEmail());
 				filterChain.doFilter(servletRequest, servletResponse);
 			}
 		}

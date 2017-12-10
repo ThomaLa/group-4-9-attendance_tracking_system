@@ -27,8 +27,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.ase.entity.Group;
 import com.ase.entity.Tutor;
-import com.ase.service.BusinessLogic;
-import com.ase.service.impl.BusinessLogicImpl;
+import com.ase.service.GroupService;
+import com.ase.service.StudentTutorManagementService;
+import com.ase.service.impl.GroupServiceImpl;
+import com.ase.service.impl.StudentTutorManagementServiceImpl;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
@@ -42,7 +44,8 @@ import com.google.appengine.api.users.UserServiceFactory;
 public class TutorGroupServlet extends HttpServlet {
 
 
-	BusinessLogic businessLogic = new BusinessLogicImpl();
+	StudentTutorManagementService studentTutorService = new StudentTutorManagementServiceImpl();
+	GroupService groupService = new GroupServiceImpl();
 	
 	@Override
 	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -53,9 +56,9 @@ public class TutorGroupServlet extends HttpServlet {
 		String action = req.getParameter("action");
 
 		if (action != null && action.equals("delete")) {
-			businessLogic.deleteGroup(groupName);
+			groupService.deleteGroup(groupName);
 		}else{
-			businessLogic.createGroup(groupName, user);
+			groupService.createGroup(groupName, user);
 		}
 		resp.sendRedirect("/tutor/showgroup");
 	}
@@ -63,8 +66,8 @@ public class TutorGroupServlet extends HttpServlet {
 	@Override
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
 		UserService userService = UserServiceFactory.getUserService();
-		List<Group> groups = businessLogic.getAllGroups();
-		Tutor tutor = businessLogic.getTutor(userService.getCurrentUser());
+		List<Group> groups = groupService.getAllGroups();
+		Tutor tutor = studentTutorService.getTutor(userService.getCurrentUser());
 		String email = "Null";
 		if (tutor != null) {
 			email = tutor.getEmail();

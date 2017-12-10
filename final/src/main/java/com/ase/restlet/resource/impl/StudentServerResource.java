@@ -4,8 +4,8 @@ import org.restlet.resource.ServerResource;
 
 import com.ase.entity.Student;
 import com.ase.restlet.resource.StudentResource;
-import com.ase.service.BusinessLogic;
-import com.ase.service.impl.BusinessLogicImpl;
+import com.ase.service.StudentTutorManagementService;
+import com.ase.service.impl.StudentTutorManagementServiceImpl;
 import com.google.appengine.api.users.User;
 
 /**
@@ -13,18 +13,18 @@ import com.google.appengine.api.users.User;
  */
 public class StudentServerResource extends ServerResource implements StudentResource {
 
-	BusinessLogic businessLogic = new BusinessLogicImpl();
+	StudentTutorManagementService studentTutorService = new StudentTutorManagementServiceImpl();
 	
 	@Override
     public Student retrieve() {
 		String studentId = getAttribute("studentEmail");
 		if(studentId!= null && !studentId.equals(""))
-			return businessLogic.getStudent(new User(studentId, "localhost"));
+			return studentTutorService.getStudent(new User(studentId, "localhost"));
 		return null;
     }
 
 	@Override
     public void store(Student student) {
-		businessLogic.createStudent(student.getEmail());
+		studentTutorService.createStudent(student.getEmail());
     }
 }

@@ -11,13 +11,11 @@ import com.ase.dao.impl.TutorDaoImpl;
 import com.ase.entity.Group;
 import com.ase.entity.Student;
 import com.ase.entity.Tutor;
-import com.ase.service.BusinessLogic;
+import com.ase.service.GroupService;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserServiceFactory;
-import com.googlecode.objectify.Key;
-import com.googlecode.objectify.ObjectifyService;
 
-public class BusinessLogicImpl implements BusinessLogic {
+public class GroupServiceImpl implements GroupService {
 
 	StudentDao studentDAO = new StudentDaoImpl();
 	TutorDao tutorDAO = new TutorDaoImpl();
@@ -35,29 +33,17 @@ public class BusinessLogicImpl implements BusinessLogic {
 		studentDAO.saveStudentToDB(student);
 	}
 	
-	@Override
-	public Student getStudent(User user){
-		if(user!=null)
-			return studentDAO.getStudentFromDB(user.getEmail());
-		else
-			return null;
-	}
 	
 	@Override
 	public List<Group> getAllGroups(){
 		return groupDAO.getAllGroups();
-	}
-	
-	@Override
-	public Tutor getTutor(User user){
-		return tutorDAO.getTutorFromDB(user.getEmail());
 	}
 
 	@Override
 	public void createGroup(String groupName, User user) {
 		// to create group
 		
-		Tutor tutor = this.getTutor(user);
+		Tutor tutor = tutorDAO.getTutorFromDB(user.getEmail());
 		Group group = new Group(groupName);
 		group.setTutor(tutor);
 		tutor.addGroup(group);
@@ -74,24 +60,5 @@ public class BusinessLogicImpl implements BusinessLogic {
 		
 	}
 
-	@Override
-	public void createStudent(String email) {
-		Student student = studentDAO.getStudentFromDB(email);
-		if (student == null) {
-			Student newStudent = new Student(email);
-			studentDAO.saveStudentToDB(student);
-		}
-		
-	}
-
-	@Override
-	public void createTutor(String email) {
-		Tutor tutor = tutorDAO.getTutorFromDB(email);
-		if (tutor == null) {
-			tutor = new Tutor(email);
-			tutorDAO.saveTutorToDB(tutor);
-		}
-		
-	}
 }
 
