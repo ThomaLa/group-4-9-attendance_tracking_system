@@ -49,9 +49,9 @@
 					<td>${group.hour}</td>
 					<td>${group.place}</td>
 					<td><button type="submit"
-						value="${group.name}" name="groupName" >Edit</button></td>
+						value="${group.name}?${group.day}?${group.hour}?${group.place}" name="edit" >Edit</button></td>
 					<td><button type="submit"
-						value="${group.name}" name="groupName" >Delete</button></td>
+						value="${group.name}" name="delete" >Delete</button></td>
 				</tr>
 			</c:forEach>
 		</table>
@@ -61,7 +61,7 @@
 	Create a group here !
 	<form action="/tutor/group" method="post">
 		<div>
-			<input type="text" name="groupName"
+			<input type="text" name="create"
 				value="${fn:escapeXml(groupName)}" /> <input type="submit"
 				value="Reset an existing group or create a new one" />
 		</div>

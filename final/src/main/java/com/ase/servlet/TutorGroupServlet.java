@@ -52,14 +52,21 @@ public class TutorGroupServlet extends HttpServlet {
 		
 		User user = UserServiceFactory.getUserService().getCurrentUser();
 
-		String groupName = req.getParameter("groupName");
-		String action = req.getParameter("action");
+		String deleteInput = req.getParameter("delete");
+		String createInput = req.getParameter("create");
+		String editInput = req.getParameter("edit");
+		String action = req.getParameter("action");//TODO change!
 
-		if (action != null && action.equals("delete")) {
-			groupService.deleteGroup(groupName);
-		}else{
-			groupService.createGroup(groupName, user);
+		if(deleteInput != null) {
+			groupService.deleteGroup(deleteInput);
 		}
+		if(createInput != null) {
+			groupService.createGroup(createInput, user);
+		}
+		if(editInput != null) {
+			groupService.editGroup(editInput);
+		}
+		
 		resp.sendRedirect("/tutor/showgroup");
 	}
 
