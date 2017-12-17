@@ -66,6 +66,8 @@
 				</tr>
 			</c:forEach>
 		</table>
+		<button type="submit"
+						 name="none" >Discard Changes</button>
 	</form>
 	<hr />
 	Create a group here !
