@@ -36,24 +36,34 @@
 		<tr>
 			<th>id</th>
 			<th>Group Name</th>
+			<th>Day</th>
+			<th>Hour</th>
+			<th>Place</th>
 			<th>Action</th>
 </tr>
 			<c:forEach var="group" items="${groups}" varStatus="count">
 				<tr bgcolor="#ffffff">
 					<td>${count.count}</td>
 					<td>${group.name}</td>
+					<td><input type="text" name="${group.name}Day"
+				value=${group.day} /></td>
+					<td><input type="text" name="${group.name}Hour"
+				value=${group.hour} /></td>
+					<td><input type="text" name="${group.name}Place"
+				value=${group.place} /></td>
 					<td><button type="submit"
-						value="${group.name}" name="groupName" >Delete</button></td>
+						value="${group.name}" name="edit" >Edit</button></td>
+					<td><button type="submit"
+						value="${group.name}" name="delete" >Delete</button></td>
 				</tr>
 			</c:forEach>
 		</table>
-		<input type="hidden" name="action" value="delete" />
 	</form>
 	<hr />
 	Create a group here !
 	<form action="/tutor/group" method="post">
 		<div>
-			<input type="text" name="groupName"
+			<input type="text" name="create"
 				value="${fn:escapeXml(groupName)}" /> <input type="submit"
 				value="Reset an existing group or create a new one" />
 		</div>

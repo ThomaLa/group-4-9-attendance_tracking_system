@@ -59,6 +59,17 @@ public class GroupServiceImpl implements GroupService {
 			groupDAO.deleteGroupFromDB(groupName);
 		
 	}
+	
+	@Override
+	public void editGroup(String groupName,
+			String groupDay, String groupHour, String groupPlace) {
+		Group groupToEdit = groupDAO.getGroupFromDB(groupName);
+		//TODO check that students remain inside
+		groupToEdit.setDay(groupDay);
+		groupToEdit.setHour(groupHour);
+		groupToEdit.setPlace(groupPlace);
+		groupDAO.saveGroupFromDB(groupToEdit);
+	}
 
 }
 
