@@ -18,7 +18,9 @@
 package com.ase.entity;
 
 import java.util.ArrayList;
+import java.util.Date;
 
+import com.google.appengine.repackaged.com.google.api.client.util.DateTime;
 import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
@@ -34,9 +36,14 @@ import com.googlecode.objectify.annotation.Index;
 public class Group {
 	@Id public String name;
 	public Ref<Tutor> tutor;
+	public String place;
+	public int day;
+	public int hour;
 	@Index public ArrayList<Ref<Student>> students = new ArrayList<Ref<Student>>();
 	@Index public ArrayList<Ref<TutorialSession>> sessions = new ArrayList<Ref<TutorialSession>>();
 
+	// basic set/getters
+	
 	public String getName() {
 		return name;
 	}
@@ -52,11 +59,48 @@ public class Group {
 	public void setTutor(Tutor tutor) {
 		this.tutor = Ref.create(tutor);
 	}
+	
+	public String getDay() {
+		switch (day) {
+		case 1: return "Monday"; 
+		case 2: return "Tuesday"; 
+		case 3: return "Wednesday"; 
+		case 4: return "Thursday"; 
+		case 5: return "Friday"; 
+		case 6: return "Saturday"; 
+		case 7: return "Sunday"; 
+		default: return "Never"; //TODO throw exception
+		}
+		
+	}
 
+	public void setDay(int dt) {
+		this.day = dt;
+	}
+	
+	public String getHour() {
+		// TODO improve with stringbuilder and add validity checks
+		return "" + (this.hour/100) + ':' + (this.hour % 100);
+	}
+	
+	public void setHour(int dt) {
+		this.hour = dt;
+	}
+	
+	public String getPlace() {
+		return place;
+	}
+	
+	public void setPlace(String place) {
+		this.place = place;
+	}
+	
 	public ArrayList<Ref<Student>> getStudents() {
 		return students;
 	}
 
+	
+	
 	public void addStudent(Student student) {
 		this.students.add(Ref.create(student));
 	}
@@ -103,6 +147,9 @@ public class Group {
 		} else {
 			name = "NULL";
 		}
+		place = "test";
+		day = 1;
+		hour = 1200;
 	}
 
 	/**

@@ -7,7 +7,6 @@ import com.googlecode.objectify.annotation.Id;
 @Entity
 public class TutorialSession {
 	@Id public String id;
-	public String place;
 	public DateTime date;
 	
 }

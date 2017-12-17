@@ -36,12 +36,20 @@
 		<tr>
 			<th>id</th>
 			<th>Group Name</th>
+			<th>Day</th>
+			<th>Hour</th>
+			<th>Place</th>
 			<th>Action</th>
 </tr>
 			<c:forEach var="group" items="${groups}" varStatus="count">
 				<tr bgcolor="#ffffff">
 					<td>${count.count}</td>
 					<td>${group.name}</td>
+					<td>${group.day}</td>
+					<td>${group.hour}</td>
+					<td>${group.place}</td>
+					<td><button type="submit"
+						value="${group.name}" name="groupName" >Edit</button></td>
 					<td><button type="submit"
 						value="${group.name}" name="groupName" >Delete</button></td>
 				</tr>
