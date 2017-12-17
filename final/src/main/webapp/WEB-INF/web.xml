@@ -15,6 +15,11 @@
 	</servlet>
 
 	<servlet>
+		<servlet-name>attendanceLog</servlet-name>
+		<servlet-class>com.ase.servlet.AttendanceLogServlet</servlet-class>
+	</servlet>
+
+	<servlet>
 		<servlet-name>RestletServlet</servlet-name>
 		<servlet-class>org.restlet.ext.servlet.ServerServlet</servlet-class>
 		<init-param>
@@ -41,6 +46,11 @@
 	<servlet-mapping>
 		<servlet-name>tutorgroup</servlet-name>
 		<url-pattern>/tutor/showgroup</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>attendanceLog</servlet-name>
+		<url-pattern>/tutor/attendanceLog</url-pattern>
 	</servlet-mapping>
 
 	<welcome-file-list>

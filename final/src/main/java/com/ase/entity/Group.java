@@ -34,6 +34,7 @@ import com.googlecode.objectify.annotation.Index;
  */
 @Entity
 public class Group {
+<<<<<<< HEAD
 	@Id public String name;
 	public Ref<Tutor> tutor;
 	public String place;
@@ -41,6 +42,31 @@ public class Group {
 	public int hour;
 	@Index public ArrayList<Ref<Student>> students = new ArrayList<Ref<Student>>();
 	@Index public ArrayList<Ref<TutorialSession>> sessions = new ArrayList<Ref<TutorialSession>>();
+=======
+	@Id private String name;
+	private Ref<Tutor> tutor;
+	@Index private ArrayList<Ref<Student>> students = new ArrayList<>();
+	@Index private Ref<TutorialSession> tutorialSession;
+
+	public Group(){
+
+	}
+
+	public Group(String groupName) {
+		if( groupName != null ) {
+			name = groupName;
+		} else {
+			name = "NULL";
+		}
+	}
+
+	public Group(String name, Tutor tutor, ArrayList<Ref<Student>> students, TutorialSession tutorialSession) {
+		this.name = name;
+		this.tutor = Ref.create(tutor);
+		this.students = students;
+		this.tutorialSession = Ref.create(tutorialSession);
+	}
+>>>>>>> 5daa140071cb6e609664e79cd47572d4b816db62
 
 	// basic set/getters
 	
@@ -145,16 +171,11 @@ public class Group {
 	
 	public void removeSession(TutorialSession session)
 	{
-		for(int i=0;i<sessions.size();i++){
-			if(sessions.get(i).get().id.equals(session.id)){
-				sessions.remove(i);
-				break;
-			}
-		}
+		this.tutorialSession = null;
 	}
 
-	public ArrayList<Ref<TutorialSession>> getSessions() {
-		return sessions;
+	public Ref<TutorialSession> getSessions() {
+		return tutorialSession;
 	}
 
 	public void addTutorialSession(TutorialSession session) {
@@ -180,12 +201,5 @@ public class Group {
 		hour = 1200;
 	}
 
-	/**
-	 * complete constructor
-	 */
-	public Group(String groupName, ArrayList<TutorialSession> sessions, Tutor instructor) {
-		this(groupName);
-		this.tutor = null;
-	}
 }
 //[END all]
