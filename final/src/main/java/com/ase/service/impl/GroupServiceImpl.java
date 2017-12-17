@@ -61,17 +61,13 @@ public class GroupServiceImpl implements GroupService {
 	}
 	
 	@Override
-	public void editGroup(String editInput) {
-		//TODO avoid copying everything
-		String[] tokens = editInput.split("[?]");
-		String groupName = tokens[0];
-		String groupDay = tokens[1];
-		String groupHour = tokens[2];
-		String groupPlace = tokens[3];
+	public void editGroup(String groupName,
+			String groupDay, String groupHour, String groupPlace) {
 		Group groupToEdit = groupDAO.getGroupFromDB(groupName);
 		//TODO check that students remain inside
-		groupToEdit.setDay(4); //TODO really change stuff
-		groupDAO.deleteGroupFromDB(groupName);
+		//groupToEdit.setDay(Integer.parseInt(groupDay));
+		//groupToEdit.setHour(Integer.parseInt(groupHour));
+		groupToEdit.setPlace(groupPlace);
 		groupDAO.saveGroupFromDB(groupToEdit);
 	}
 

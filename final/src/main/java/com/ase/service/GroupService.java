@@ -12,5 +12,6 @@ public interface GroupService {
 	public List<Group> getAllGroups();
 	public void createGroup(String groupName,User user);
 	public void deleteGroup(String groupName);
-	public void editGroup(String editInput);
+	public void editGroup(String groupName,
+			String groupDay, String groupHour, String groupPlace);
 }

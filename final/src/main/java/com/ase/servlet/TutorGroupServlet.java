@@ -57,6 +57,7 @@ public class TutorGroupServlet extends HttpServlet {
 		String editInput = req.getParameter("edit");
 		String action = req.getParameter("action");//TODO change!
 
+		
 		if(deleteInput != null) {
 			groupService.deleteGroup(deleteInput);
 		}
@@ -64,7 +65,10 @@ public class TutorGroupServlet extends HttpServlet {
 			groupService.createGroup(createInput, user);
 		}
 		if(editInput != null) {
-			groupService.editGroup(editInput);
+			String groupDay = req.getParameter(editInput+"Day");
+			String groupHour = req.getParameter(editInput+"Hour");
+			String groupPlace = req.getParameter(editInput+"Place");
+			groupService.editGroup(editInput, groupDay, groupHour, groupPlace);
 		}
 		
 		resp.sendRedirect("/tutor/showgroup");
