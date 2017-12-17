@@ -34,7 +34,6 @@ import com.googlecode.objectify.annotation.Index;
  */
 @Entity
 public class Group {
-<<<<<<< HEAD
 	@Id public String name;
 	public Ref<Tutor> tutor;
 	public String place;
@@ -42,31 +41,7 @@ public class Group {
 	public int hour;
 	@Index public ArrayList<Ref<Student>> students = new ArrayList<Ref<Student>>();
 	@Index public ArrayList<Ref<TutorialSession>> sessions = new ArrayList<Ref<TutorialSession>>();
-=======
-	@Id private String name;
-	private Ref<Tutor> tutor;
-	@Index private ArrayList<Ref<Student>> students = new ArrayList<>();
-	@Index private Ref<TutorialSession> tutorialSession;
 
-	public Group(){
-
-	}
-
-	public Group(String groupName) {
-		if( groupName != null ) {
-			name = groupName;
-		} else {
-			name = "NULL";
-		}
-	}
-
-	public Group(String name, Tutor tutor, ArrayList<Ref<Student>> students, TutorialSession tutorialSession) {
-		this.name = name;
-		this.tutor = Ref.create(tutor);
-		this.students = students;
-		this.tutorialSession = Ref.create(tutorialSession);
-	}
->>>>>>> 5daa140071cb6e609664e79cd47572d4b816db62
 
 	// basic set/getters
 	

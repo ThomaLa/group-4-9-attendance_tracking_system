@@ -46,6 +46,7 @@
 					<td>${count.count}</td>
 					<td>${group.name}</td>
 					<td><select name="${group.name}Day">
+						<option value=${group.day}>${group.day}</option>
 						<option value="Monday">Monday</option>
 						<option value="Tuesday">Tuesday</option>
 						<option value="Wednesday">Wednesday</option>
@@ -54,7 +55,7 @@
 						<option value="Saturday">Saturday</option>
 						<option value="Sunday">Sunday</option>
 					</select>
-					${group.day}</td>
+					</td>
 					<td><input type="time" name="${group.name}Hour"
 				value=${group.hour} /></td>
 					<td><input type="text" name="${group.name}Place"
