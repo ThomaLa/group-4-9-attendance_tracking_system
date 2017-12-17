@@ -93,8 +93,15 @@ public class Group {
 	}
 	
 	public String getHour() {
-		// TODO improve with stringbuilder and add validity checks
-		return "" + (this.hour/100) + ':' + (this.hour % 100);
+		StringBuilder sb = new StringBuilder();
+		int h = (int) (this.hour / 100);
+		sb.append(h);
+		sb.append(':');
+		int m = this.hour % 100;
+		if(m<10)
+			sb.append('0');
+		sb.append(m);
+		return sb.toString();
 	}
 	
 	public void setHour(int dt) {
@@ -103,7 +110,9 @@ public class Group {
 	
 	public void setHour(String d) {
 		String[] both = d.split(":");
-		this.hour = (Integer.parseInt(both[0]) * 100 + Integer.parseInt(both[1]));//TODO throw exception if not HHMM
+		int h = Integer.parseInt(both[0]);
+		int m = (both.length == 1)? 0 : Integer.parseInt(both[1]);
+		this.hour = (h * 100 + m);//TODO throw exception if not HHMM
 	}
 	
 	public String getPlace() {
