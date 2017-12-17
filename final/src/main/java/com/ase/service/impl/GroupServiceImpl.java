@@ -65,8 +65,8 @@ public class GroupServiceImpl implements GroupService {
 			String groupDay, String groupHour, String groupPlace) {
 		Group groupToEdit = groupDAO.getGroupFromDB(groupName);
 		//TODO check that students remain inside
-		//groupToEdit.setDay(Integer.parseInt(groupDay));
-		//groupToEdit.setHour(Integer.parseInt(groupHour));
+		groupToEdit.setDay(groupDay);
+		groupToEdit.setHour(groupHour);
 		groupToEdit.setPlace(groupPlace);
 		groupDAO.saveGroupFromDB(groupToEdit);
 	}

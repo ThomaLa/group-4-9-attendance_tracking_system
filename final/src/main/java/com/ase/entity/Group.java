@@ -78,6 +78,20 @@ public class Group {
 		this.day = dt;
 	}
 	
+	public void setDay(String d) {
+		switch (d) {
+		case "Monday": day = 1; break; 
+		case "Tuesday": day = 2; break; 
+		case "Wednesday": day = 3; break; 
+		case "Thursday": day = 4; break; 
+		case "Friday": day = 5; break; 
+		case "Saturday": day = 6; break; 
+		case "Sunday": day = 7; break; 
+		default: this.day = Integer.parseInt(d); //TODO throws exception
+		}
+		
+	}
+	
 	public String getHour() {
 		// TODO improve with stringbuilder and add validity checks
 		return "" + (this.hour/100) + ':' + (this.hour % 100);
@@ -85,6 +99,11 @@ public class Group {
 	
 	public void setHour(int dt) {
 		this.hour = dt;
+	}
+	
+	public void setHour(String d) {
+		String[] both = d.split(":");
+		this.hour = (Integer.parseInt(both[0]) * 100 + Integer.parseInt(both[1]));//TODO throw exception if not HHMM
 	}
 	
 	public String getPlace() {
