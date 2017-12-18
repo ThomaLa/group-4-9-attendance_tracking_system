@@ -146,11 +146,11 @@ public class Group {
 	
 	public void removeSession(TutorialSession session)
 	{
-		this.tutorialSession = null;
+		this.sessions = null;
 	}
 
-	public Ref<TutorialSession> getSessions() {
-		return tutorialSession;
+	public ArrayList<Ref<TutorialSession>> getSessions() {
+		return this.sessions;
 	}
 
 	public void addTutorialSession(TutorialSession session) {
