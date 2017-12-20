@@ -25,10 +25,10 @@
 
 	<p>
 		Hello, ${fn:escapeXml(user.nickname)}! (You can <a
-			href="${fn:escapeXml(logouturl)}">sign out</a> here.)
+			href="${fn:escapeXml(logouturl)}">sign out</a> here or go back <a href="../../">Home</a>.)
 	</p>
 
-	Hello, ${fn:escapeXml(student.email)} Have a nice day!
+	Hello, ${fn:escapeXml(student.email)} Have a nice day! 
 	<hr />
 	
 		Current group is:  ${fn:escapeXml(currentGroup)}

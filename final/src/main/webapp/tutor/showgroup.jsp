@@ -25,7 +25,10 @@
 
 	<p>
 		Hello, ${fn:escapeXml(user.nickname)}! (You can <a
-			href="${fn:escapeXml(logouturl)}">sign out</a> here.)
+			href="${fn:escapeXml(logouturl)}">sign out</a> here.) 
+			<a href="../../">Home </a> | 
+			<a href="attendanceLog">Monitor attendance log </a> | 
+			<a href="../../mockAndroidPi.jsp">Create attendance item</a>
 	</p>
 
 	Hello, ${fn:escapeXml(email)} Have a nice day!

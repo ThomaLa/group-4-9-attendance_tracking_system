@@ -75,7 +75,7 @@ left for testing
 
 <script>
 $( "form" ).on( "submit", function( event ) {
-  event.preventDefault();
+  //event.preventDefault();
   console.log( $( this ).serialize() );
 });
 </script>
