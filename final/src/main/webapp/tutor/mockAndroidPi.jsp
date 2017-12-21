@@ -48,7 +48,7 @@
 		pageContext.setAttribute("email", email);
 	%>
 
-	Hello, ${fn:escapeXml(email)} Fill out the following information.
+	Hello, ${fn:escapeXml(email)}. Please fill out the missing information.
 
 	<hr />
 
@@ -56,25 +56,40 @@
 		<table border="0">
 			<tr>
 				<td>Attendance ID:</td>
-				<td><input type="text" name="attendance_id" id="attendance_id"></td>
+				<td>10483084049</td>
 			</tr>
 			<tr>
-				<td>Student ID:</td>
-				<td><input type="text" name="student_id" id="student_id"></td>
+				<td>Student Name:</td>
+				<td><input type="text" name="student_id" id="student_id" value="Max Mustermann"></td>
 			</tr>
 			<tr>
-				<td>Tutorial Group ID:</td>
-				<td><input type="text" name="tutorial_group_id"
-					id="tutorial_group_id"></td>
+				<td>Tutorial Group:</td>
+				<td><select name="group_id" id="group_id">
+						<option value="id0">Group 0</option>
+						<option value="id1">Group 1</option>
+						<option value="id2">Group 2</option>
+						<option value="id3">Group 3</option>
+						<option value="id4">Group 4</option>
+						<option value="id5">Group 5</option>
+					</select></td>
 			</tr>
 			<tr>
-				<td>Week ID:</td>
-				<td><input type="text" name="week_id" id="week_id"></td>
+				<td>Week:</td>
+				<td><select name="week_id" id="week_id">
+						<option value="id0">Jan. 01 - 07</option>
+						<option value="id1">Jan. 08 - 14</option>
+						<option value="id2">Jan. 15 - 21</option>
+						<option value="id3">Jan. 22 - 28</option>
+						<option value="id4">Jan. 29 - Feb. 4</option>
+						<option value="id5">Feb. 5 - 11</option>
+					</select></td>
 			</tr>
 			<tr>
 				<td>Presented:</td>
-				<td><input type="text" name="presented" value="Yes"
-					selectBoxOptions="No"></td>
+				<td><select name="presented" id="presented">
+						<option value="1">Yes</option>
+						<option value="0">No</option>
+					</select></td>
 			</tr>
 		</table>
 		<br /> <input type="button" value="Confirm" class="btn-success" onclick="callApi()">
