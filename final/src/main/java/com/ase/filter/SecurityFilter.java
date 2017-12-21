@@ -52,7 +52,9 @@ public class SecurityFilter implements Filter {
 				}
 			}
 			
-		} else {
+		} else if (thisUrl.startsWith("/api")) {
+			filterChain.doFilter(servletRequest, servletResponse);
+		}else {
 
 			if (((HttpServletRequest) servletRequest).getUserPrincipal() == null) {
 				servletResponse.getWriter()
