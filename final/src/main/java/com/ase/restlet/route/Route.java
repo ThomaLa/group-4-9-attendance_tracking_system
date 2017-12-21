@@ -8,6 +8,7 @@ import com.ase.restlet.resource.impl.AttendanceItemServerResource;
 import com.ase.restlet.resource.impl.StudentServerResource;
 
 public class Route extends Application{ 
+	
     public synchronized Restlet createInboundRoot() {
         Router router = new Router(getContext());
         router.attach("/student/{studentEmail}",StudentServerResource.class );

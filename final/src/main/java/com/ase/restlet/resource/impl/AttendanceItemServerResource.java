@@ -1,12 +1,13 @@
 package com.ase.restlet.resource.impl;
 
-import java.io.IOException;
-
 import org.restlet.representation.Representation;
 import org.restlet.resource.ServerResource;
 
 import com.ase.entity.AttendanceItem;
+import com.ase.restlet.requestresponse.AttendanceItemUpdateResponse;
 import com.ase.restlet.resource.AttendanceItemResource;
+import com.ase.service.AttendanceService;
+import com.ase.service.impl.AttendanceServiceImpl;
 
 /**
  * The server side implementation of the Restlet resource.
@@ -14,22 +15,30 @@ import com.ase.restlet.resource.AttendanceItemResource;
 public class AttendanceItemServerResource extends ServerResource implements AttendanceItemResource {
 
 
+	AttendanceService attendanceService = new AttendanceServiceImpl();
+	
+	
 	@Override
 	public AttendanceItem retrieve() {
 		String id = getAttribute("id");
-		return new AttendanceItem(Long.parseLong(id),null,true,null);
+		return attendanceService.getAttendanceItem(Long.parseLong(id));
 	}
 
 	@Override
-	public Representation update(Representation entity) {
+	public AttendanceItemUpdateResponse update(Representation entity) {
 		try {
-			entity.getText();
-			return entity;
-		} catch (IOException e) {
+			//DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+			//DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+			////Document doc = dBuilder.parse(entity.getText());
+			String studentId = "asas";//doc.getElementsByTagName("studentId").item(0).getTextContent();
+			Exception ex =  new Exception();
+			throw new NullPointerException("Crazy Error");
+			//return studentId;
+		} catch (NullPointerException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			return new AttendanceItemUpdateResponse(false, null,e.getMessage());
 		}
-		return null;
+
 	}
 	
 }
