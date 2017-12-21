@@ -18,71 +18,69 @@
 
 <html>
 <head>
-<link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
+
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
+	integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ"
+	crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+
+<title>Create/Modify Groups</title>
 </head>
 
 <body>
-
-	<p>
-		Hello, ${fn:escapeXml(user.nickname)}! (You can <a
-			href="${fn:escapeXml(logouturl)}">sign out</a> here.) 
-			<a href="../../">Home </a> | 
-			<a href="attendanceLog">Monitor attendance log </a> | 
-			<a href="../../mockAndroidPi.jsp">Create attendance item</a>
-	</p>
-
-	Hello, ${fn:escapeXml(email)} Have a nice day!
-	<hr />
-	<h4>List of Groups!</h4>
-	<form action="/tutor/group" method="post">
-		<table>
-		<tr>
-			<th>id</th>
-			<th>Group Name</th>
-			<th>Day</th>
-			<th>Hour</th>
-			<th>Place</th>
-			<th>Action</th>
-</tr>
-			<c:forEach var="group" items="${groups}" varStatus="count">
-				<tr bgcolor="#ffffff">
-					<td>${count.count}</td>
-					<td>${group.name}</td>
-					<td><select name="${group.name}Day">
-						<option value=${group.day}>${group.day}</option>
-						<option value="Monday">Monday</option>
-						<option value="Tuesday">Tuesday</option>
-						<option value="Wednesday">Wednesday</option>
-						<option value="Thursday">Thursday</option>
-						<option value="Friday">Friday</option>
-						<option value="Saturday">Saturday</option>
-						<option value="Sunday">Sunday</option>
-					</select>
-					</td>
-					<td><input type="time" name="${group.name}Hour"
-				value=${group.hour} /></td>
-					<td><input type="text" name="${group.name}Place"
-				value=${group.place} /></td>
-					<td><button type="submit"
-						value="${group.name}" name="edit" >Edit</button></td>
-					<td><button type="submit"
-						value="${group.name}" name="delete" >Delete</button></td>
+<div class="container">
+	<jsp:include page="header.jsp"></jsp:include>
+	
+		<h4 class="h4"">List of Groups!</h4>
+		<form action="/tutor/group" method="post" class="form-group">
+			<table class="info">
+				<tr>
+					<th>ID</th>
+					<th>Group</th>
+					<th>Day</th>
+					<th>Hour</th>
+					<th>Place</th>
+					<th>Action</th>
 				</tr>
-			</c:forEach>
-		</table>
-		<button type="submit"
-						 name="none" >Discard Changes</button>
-	</form>
-	<hr />
-	Create a group here !
-	<form action="/tutor/group" method="post">
-		<div>
-			<input type="text" name="create"
-				value="${fn:escapeXml(groupName)}" /> <input type="submit"
-				value="Reset an existing group or create a new one" />
-		</div>
-	</form>
-
+				<c:forEach var="group" items="${groups}" varStatus="count">
+					<tr bgcolor="#ffffff">
+						<td>${count.count}</td>
+						<td>${group.name}</td>
+						<td><select name="${group.name}Day">
+								<option value=${group.day}>${group.day}</option>
+								<option value="Monday">Monday</option>
+								<option value="Tuesday">Tuesday</option>
+								<option value="Wednesday">Wednesday</option>
+								<option value="Thursday">Thursday</option>
+								<option value="Friday">Friday</option>
+								<option value="Saturday">Saturday</option>
+								<option value="Sunday">Sunday</option>
+						</select></td>
+						<td><input type="time" name="${group.name}Hour"
+							value=${group.hour } /></td>
+						<td><input type="text" name="${group.name}Place"
+							value=${group.place } /></td>
+						<td><button type="submit" value="${group.name}" class="btn-success" name="edit">Edit</button></td>
+						<td><button type="submit" value="${group.name}" class="btn-success" name="delete">Delete</button></td>
+					</tr>
+				</c:forEach>
+			</table>
+			<button type="submit" name="none" class="btn-warning">Discard
+				Changes</button>
+		</form>
+		<hr />
+		Create a group here !
+		<form action="/tutor/group" method="post" class="form-group">
+			<div>
+				<input type="text" name="create" value="${fn:escapeXml(groupName)}" />
+				<input class="btn-success" type="submit"
+					value="Reset an existing group or create a new one" />
+			</div>
+		</form>
+	</div>
 </body>
 </html>
 <%-- //[END all]--%>
