@@ -27,11 +27,10 @@ public class GroupServiceImpl implements GroupService {
 		Student student = studentDAO
 				.getStudentFromDB(UserServiceFactory.getUserService().getCurrentUser().getEmail());
 		Group group = groupDAO.getGroupFromDB(groupName);
-		for(Ref<Student> currentStudent:group.students ){
+		for(Group currentGroup : groupDAO.getAllGroups()){
 			//Not allow student to join the same group multiple times.
-			if(currentStudent.get().getEmail().equals(student.email)){
-				return;
-			}
+				currentGroup.removeStudent(student); //Ideally only one entry of the student should be present.
+				groupDAO.saveGroupFromDB(currentGroup);
 		}
 		
 		student.setGroup(group);
