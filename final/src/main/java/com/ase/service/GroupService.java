@@ -3,8 +3,6 @@ package com.ase.service;
 import java.util.List;
 
 import com.ase.entity.Group;
-import com.ase.entity.Student;
-import com.ase.entity.Tutor;
 import com.google.appengine.api.users.User;
 
 public interface GroupService {
@@ -14,4 +12,5 @@ public interface GroupService {
 	public void deleteGroup(String groupName);
 	public void editGroup(String groupName,
 			String groupDay, String groupHour, String groupPlace);
+	public Group getGroupByID(String groupName);
 }

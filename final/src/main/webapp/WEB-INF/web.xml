@@ -13,6 +13,11 @@
 		<servlet-name>studentgroup</servlet-name>
 		<servlet-class>com.ase.servlet.StudentGroupSelectServlet</servlet-class>
 	</servlet>
+	
+	<servlet>
+		<servlet-name>studentgroupexpand</servlet-name>
+		<servlet-class>com.ase.servlet.TutorGroupExpandServlet</servlet-class>
+	</servlet>
 
 	<servlet>
 		<servlet-name>attendanceLog</servlet-name>
@@ -42,6 +47,11 @@
 	<servlet-mapping>
 		<servlet-name>studentgroup</servlet-name>
 		<url-pattern>/student/group</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>studentgroupexpand</servlet-name>
+		<url-pattern>/tutor/group/students</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>tutorgroup</servlet-name>

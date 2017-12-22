@@ -78,5 +78,12 @@ public class GroupServiceImpl implements GroupService {
 		groupDAO.saveGroupFromDB(groupToEdit);
 	}
 
+
+	@Override
+	public Group getGroupByID(String groupName) {
+		// TODO Auto-generated method stub
+		return groupDAO.getGroupFromDB(groupName);
+	}
+
 }
 

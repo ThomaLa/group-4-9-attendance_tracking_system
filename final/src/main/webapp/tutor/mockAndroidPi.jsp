@@ -92,7 +92,7 @@
 					</select></td>
 			</tr>
 		</table>
-		<br /> <input type="button" value="Confirm" class="btn-success" onclick="callApi()">
+		<br /> <input type="button" value="Confirm" class="btn btn-success" onclick="callApi()">
 	</form>
 
 	left for testing

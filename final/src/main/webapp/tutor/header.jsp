@@ -9,7 +9,7 @@
 
 <nav class="navbar navbar-light bg-faded">
 <p>
-	<a href="../../">Home </a> | <a href="attendanceLog">Monitor
+	<a href="../../">Home </a> | <a href="/tutor/showgroup">Groups List</a> |<a href="attendanceLog">Monitor
 		attendance log </a> | <a href="mockAndroidPi.jsp">Create
 		attendance item</a> | <a href="${fn:escapeXml(logouturl)}">Sign Out</a> 
 </p>

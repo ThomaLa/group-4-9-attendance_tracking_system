@@ -18,7 +18,7 @@
 
 <html>
 <head>
-<link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
+
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
 	integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ"
@@ -34,41 +34,29 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"
 	integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
 	crossorigin="anonymous"></script>
+
+<title>Create/Modify Groups</title>
 </head>
 
 <body>
 	<div class="container">
-
 		<jsp:include page="header.jsp"></jsp:include>
 
-		Current group is: ${fn:escapeXml(currentGroup)}
-		<hr />
-		<h4>Join a group!</h4>
-		<form action="/student/group" method="post">
-			<table class="info">
-				<tr>
-					<th>ID</th>
-					<th>Group Name</th>
-					<th>Day</th>
-					<th>Hour</th>
-					<th>Place</th>
-					<th>Action</th>
+		<h4 class="h4"">List of Students !</h4>
+		<table class="info">
+			<tr>
+				<th>ID</th>
+				<th>Name</th>
+			</tr>
+			<c:forEach var="student" items="${students}" varStatus="count">
+				<tr bgcolor="#ffffff">
+					<td>${count.count}</td>
+					<td>${student.email}</td>
 				</tr>
-				<c:forEach var="group" items="${groups}" varStatus="count">
-					<tr bgcolor="#ffffff">
-						<td>${count.count}</td>
-						<td>${group.name}</td>
-						<td>${group.day}</td>
-						<td>${group.hour}</td>
-						<td>${group.place}</td>
-						<td><button type="submit" value="${group.name}"
-								name="groupName" class="btn btn-success">Join</button></td>
-					</tr>
-				</c:forEach>
-			</table>
-			<input type="hidden" name="action" value="join"/>
-		</form>
-		<hr />
+			</c:forEach>
+		</table>
+		<br/>
+		<a href="/tutor/showgroup" class="btn btn-success">Back</a>
 	</div>
 </body>
 </html>

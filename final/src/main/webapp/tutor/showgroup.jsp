@@ -36,14 +36,14 @@
 	
 		<h4 class="h4"">List of Groups!</h4>
 		<form action="/tutor/group" method="post" class="form-group">
-			<table class="info">
+			<table class="info" style="padding: 2px 2px 2px 2px;">
 				<tr>
 					<th>ID</th>
 					<th>Group</th>
 					<th>Day</th>
 					<th>Hour</th>
 					<th>Place</th>
-					<th>Action</th>
+					<th>Actions</th>
 				</tr>
 				<c:forEach var="group" items="${groups}" varStatus="count">
 					<tr bgcolor="#ffffff">
@@ -63,12 +63,13 @@
 							value=${group.hour } /></td>
 						<td><input type="text" name="${group.name}Place"
 							value=${group.place } /></td>
-						<td><button type="submit" value="${group.name}" class="btn-success" name="edit">Edit</button></td>
-						<td><button type="submit" value="${group.name}" class="btn-success" name="delete">Delete</button></td>
+						<td><a href="/tutor/group/students?groupName=${group.name}" class="btn btn-success">Show</a></td>
+						<td><button type="submit" value="${group.name}" class="btn btn-success" name="edit">Edit</button></td>
+						<td><button type="submit" value="${group.name}" class="btn btn-success" name="delete">Delete</button></td>
 					</tr>
 				</c:forEach>
 			</table>
-			<button type="submit" name="none" class="btn-warning">Discard
+			<button type="submit" name="none" class="btn btn-warning">Discard
 				Changes</button>
 		</form>
 		<hr />
@@ -76,7 +77,7 @@
 		<form action="/tutor/group" method="post" class="form-group">
 			<div>
 				<input type="text" name="create" value="${fn:escapeXml(groupName)}" />
-				<input class="btn-success" type="submit"
+				<input class="btn btn-success" type="submit"
 					value="Reset an existing group or create a new one" />
 			</div>
 		</form>
