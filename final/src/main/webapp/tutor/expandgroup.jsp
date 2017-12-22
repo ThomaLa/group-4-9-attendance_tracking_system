@@ -40,8 +40,24 @@
 
 <body>
 	<div class="container">
+		
 		<jsp:include page="header.jsp"></jsp:include>
-
+		<h3 class="h3">Group: ${group.name}</h3>
+		<hr />
+		<h4 class="h4"">Attendance Log :</h4>
+		<table class="info">
+			<tr>
+				<th>Week</th>
+				<th>Action</th>
+			</tr>
+			<c:forEach var="attendance" items="${attendanceLogs}" varStatus="count">
+				<tr bgcolor="#ffffff">
+					<td>${attendance.weekId}</td>
+					<td><a href="/tutor/attendancelog?id=${attendance.attendanceLogId}&groupName=${group.name}" class="btn btn-success">View</a></td>
+				</tr>
+			</c:forEach>
+			</table>
+			<hr />
 		<h4 class="h4"">List of Students !</h4>
 		<table class="info">
 			<tr>

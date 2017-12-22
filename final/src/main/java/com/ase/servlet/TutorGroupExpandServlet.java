@@ -26,6 +26,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ase.entity.AttendanceLog;
 import com.ase.entity.Group;
 import com.ase.entity.Student;
 import com.ase.entity.Tutor;
@@ -61,14 +62,24 @@ public class TutorGroupExpandServlet extends HttpServlet {
 		}
 		req.setAttribute("logouturl", userService.createLogoutURL(req.getRequestURI()));
 		req.setAttribute("email", email);
+		
 		List<Ref<Student>> RefStudents = group.getStudents();	
 		List<Student> students = new ArrayList<Student>();
+		
+		List<Ref<AttendanceLog>> refattendanceLog = group.getSessions();	
+		List<AttendanceLog> attendanceLogs = new ArrayList<AttendanceLog>();
+					
 		for(Ref<Student> studentPointer: RefStudents){
 			students.add(studentPointer.get());
 		}
 		
+		for(Ref<AttendanceLog> attendanceLogPointer: refattendanceLog){
+			attendanceLogs.add(attendanceLogPointer.get());
+		}
+		
 		req.setAttribute("students", students);
-
+		req.setAttribute("attendanceLogs", attendanceLogs);
+		req.setAttribute("group", group);
 		req.getRequestDispatcher("/tutor/expandgroup.jsp").forward(req, resp);
 	}
 

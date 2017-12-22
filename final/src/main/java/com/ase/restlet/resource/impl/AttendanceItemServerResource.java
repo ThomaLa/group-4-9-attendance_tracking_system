@@ -1,6 +1,6 @@
 package com.ase.restlet.resource.impl;
 
-import org.restlet.representation.Representation;
+import org.restlet.representation.Variant;
 import org.restlet.resource.ServerResource;
 
 import com.ase.entity.AttendanceItem;
@@ -25,12 +25,15 @@ public class AttendanceItemServerResource extends ServerResource implements Atte
 	}
 
 	@Override
-	public AttendanceItemUpdateResponse update(Representation entity) {
+	public AttendanceItemUpdateResponse update(Variant variant) {
 		try {
-			//DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-			//DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-			////Document doc = dBuilder.parse(entity.getText());
-			String studentId = "asas";//doc.getElementsByTagName("studentId").item(0).getTextContent();
+//			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+//			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+//			Document doc = dBuilder.parse(entity);
+			String studentId = "asas";
+			
+			System.out.println(variant.toString());
+			//entity.getElementsByTagName("studentId").item(0).getTextContent();
 			Exception ex =  new Exception();
 			throw new NullPointerException("Crazy Error");
 			//return studentId;

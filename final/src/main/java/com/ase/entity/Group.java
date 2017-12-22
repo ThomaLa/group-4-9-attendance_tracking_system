@@ -40,7 +40,7 @@ public class Group {
 	public int day;
 	public int hour;
 	@Index public ArrayList<Ref<Student>> students = new ArrayList<Ref<Student>>();
-	@Index public ArrayList<Ref<TutorialSession>> sessions = new ArrayList<Ref<TutorialSession>>();
+	@Index public ArrayList<Ref<AttendanceLog>> sessions = new ArrayList<Ref<AttendanceLog>>();
 
 
 	// basic set/getters
@@ -144,16 +144,16 @@ public class Group {
 		}
 	}
 	
-	public void removeSession(TutorialSession session)
+	public void removeSession(AttendanceLog session)
 	{
 		this.sessions = null;
 	}
 
-	public ArrayList<Ref<TutorialSession>> getSessions() {
+	public ArrayList<Ref<AttendanceLog>> getSessions() {
 		return this.sessions;
 	}
 
-	public void addTutorialSession(TutorialSession session) {
+	public void addAttendanceLog(AttendanceLog session) {
 		this.sessions.add(Ref.create(session));
 	}
 

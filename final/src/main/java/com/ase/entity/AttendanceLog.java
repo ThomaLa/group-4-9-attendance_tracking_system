@@ -9,7 +9,7 @@ import java.util.ArrayList;
 @Entity
 public class AttendanceLog {
     @Id private long attendanceLogId;
-    private ArrayList<Ref<AttendanceItem>> attendanceItems;
+    private ArrayList<Ref<AttendanceItem>> attendanceItems = new ArrayList<Ref<AttendanceItem>> () ;
     private short weekId;
 
     public AttendanceLog() {
@@ -36,6 +36,10 @@ public class AttendanceLog {
 
     public void setAttendanceItems(ArrayList<Ref<AttendanceItem>> attendanceItems) {
         this.attendanceItems = attendanceItems;
+    }
+    
+    public void addAttendanceItemRef(Ref<AttendanceItem> attendanceItem) {
+        this.attendanceItems.add(attendanceItem);
     }
 
     public short getWeekId() {

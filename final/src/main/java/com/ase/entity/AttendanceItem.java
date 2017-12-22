@@ -10,18 +10,18 @@ public class AttendanceItem {
     @Id private long attendanceId;
     private Ref<Student> student;
     private boolean hasAttended;
-    private DateTime timeOfAttendance;
+    //private DateTime timeOfAttendance;
 
     public AttendanceItem() {
 
     }
 
 
-    public AttendanceItem(long attendanceId, Ref<Student> student, boolean hasAttended, DateTime timeOfAttendance) {
+    public AttendanceItem(long attendanceId, Ref<Student> student, boolean hasAttended) {
         this.attendanceId = attendanceId;
         this.student = student;
         this.hasAttended = hasAttended;
-        this.timeOfAttendance = timeOfAttendance;
+        //this.timeOfAttendance = timeOfAttendance;
     }
 
     public long getAttendanceId() {
@@ -49,11 +49,11 @@ public class AttendanceItem {
     }
 
 
-    public DateTime getTimeOfAttendance() {
-        return timeOfAttendance;
-    }
-
-    public void setTimeOfAttendance(DateTime timeOfAttendance) {
-        this.timeOfAttendance = timeOfAttendance;
-    }
+//    public DateTime getTimeOfAttendance() {
+//        return timeOfAttendance;
+//    }
+//
+//    public void setTimeOfAttendance(DateTime timeOfAttendance) {
+//        this.timeOfAttendance = timeOfAttendance;
+//    }
 }

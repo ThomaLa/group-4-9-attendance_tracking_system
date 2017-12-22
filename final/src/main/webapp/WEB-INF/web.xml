@@ -60,7 +60,7 @@
 
 	<servlet-mapping>
 		<servlet-name>attendanceLog</servlet-name>
-		<url-pattern>/tutor/attendanceLog</url-pattern>
+		<url-pattern>/tutor/attendancelog</url-pattern>
 	</servlet-mapping>
 
 	<welcome-file-list>

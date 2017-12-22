@@ -5,6 +5,7 @@ import com.ase.dao.AttendanceLogDao;
 import com.ase.dao.impl.AttendanceItemDaoImpl;
 import com.ase.dao.impl.AttendanceLogDaoImpl;
 import com.ase.entity.AttendanceItem;
+import com.ase.entity.AttendanceLog;
 import com.ase.service.AttendanceService;
 
 public class AttendanceServiceImpl implements AttendanceService {
@@ -20,4 +21,9 @@ public class AttendanceServiceImpl implements AttendanceService {
     public AttendanceItem getAttendanceItem(long attendanceId) {
         return attendanceItemDao.getAttendanceItemFromDB(attendanceId);
     }
+
+	@Override
+	public AttendanceLog getAttendanceLog(long attandanceLongId) {
+		return attendanceLogDao.getAttendanceLogFromDB(attandanceLongId);
+	}
 }

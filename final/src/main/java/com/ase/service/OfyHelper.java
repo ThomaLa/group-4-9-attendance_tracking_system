@@ -19,6 +19,8 @@ package com.ase.service;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
+import com.ase.entity.AttendanceItem;
+import com.ase.entity.AttendanceLog;
 import com.ase.entity.Group;
 import com.ase.entity.Student;
 import com.ase.entity.Tutor;
@@ -33,6 +35,8 @@ public class OfyHelper implements ServletContextListener {
     ObjectifyService.register(Group.class);
     ObjectifyService.register(Student.class);
     ObjectifyService.register(Tutor.class);
+    ObjectifyService.register(AttendanceLog.class);
+    ObjectifyService.register(AttendanceItem.class);
   }
 
   public void contextDestroyed(ServletContextEvent event) {
