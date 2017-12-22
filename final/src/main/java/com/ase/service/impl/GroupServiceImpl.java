@@ -14,6 +14,7 @@ import com.ase.entity.Tutor;
 import com.ase.service.GroupService;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserServiceFactory;
+import com.googlecode.objectify.Ref;
 
 public class GroupServiceImpl implements GroupService {
 
@@ -26,6 +27,13 @@ public class GroupServiceImpl implements GroupService {
 		Student student = studentDAO
 				.getStudentFromDB(UserServiceFactory.getUserService().getCurrentUser().getEmail());
 		Group group = groupDAO.getGroupFromDB(groupName);
+		for(Ref<Student> currentStudent:group.students ){
+			//Not allow student to join the same group multiple times.
+			if(currentStudent.get().getEmail().equals(student.email)){
+				return;
+			}
+		}
+		
 		student.setGroup(group);
 		group.addStudent(student);
 
