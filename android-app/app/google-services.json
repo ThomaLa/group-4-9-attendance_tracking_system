@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "272415828072",
+    "firebase_url": "https://atse-attendance-hashchain.firebaseio.com",
+    "project_id": "atse-attendance-hashchain",
+    "storage_bucket": "atse-attendance-hashchain.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:272415828072:android:d2eb95326ea5cc66",
+        "android_client_info": {
+          "package_name": "com.ase.attendancehashchain"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "272415828072-odlljruqanarpar5o5564c2p34vteqpa.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ase.attendancehashchain",
+            "certificate_hash": "17a001abde3b089dfa153cd0421697fff9587bae"
+          }
+        },
+        {
+          "client_id": "272415828072-oi563d43fkqmapatv20dci9ic93oat8q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6VVkJbzvrNWU-6dhWloLzG7eKnnmxk-4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "272415828072-oi563d43fkqmapatv20dci9ic93oat8q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
