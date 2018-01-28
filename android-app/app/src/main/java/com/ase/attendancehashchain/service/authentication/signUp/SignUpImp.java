@@ -1,11 +1,10 @@
-package com.ase.attendancehashchain.service.authentication.imp;
+package com.ase.attendancehashchain.service.authentication.signUp;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.Toast;
 
-import com.ase.attendancehashchain.service.authentication.SignUp;
 import com.ase.attendancehashchain.ui.MainActivity;
 import com.ase.attendancehashchain.ui.SignUpActivity;
 import com.google.android.gms.tasks.OnCompleteListener;

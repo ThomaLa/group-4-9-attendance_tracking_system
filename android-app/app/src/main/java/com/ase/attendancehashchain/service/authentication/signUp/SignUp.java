@@ -1,4 +1,4 @@
-package com.ase.attendancehashchain.service.authentication;
+package com.ase.attendancehashchain.service.authentication.signUp;
 
 /**
  * Created by MarcoSalazar on 28/01/18.

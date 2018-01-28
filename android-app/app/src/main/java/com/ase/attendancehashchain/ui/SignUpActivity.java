@@ -9,10 +9,10 @@ import android.widget.ProgressBar;
 
 import com.ase.attendancehashchain.R;
 
-import com.ase.attendancehashchain.service.authentication.SignUp;
-import com.ase.attendancehashchain.service.authentication.imp.SignUpImp;
-import com.ase.attendancehashchain.util.InputValidator;
-import com.ase.attendancehashchain.util.InputValidatorImp;
+import com.ase.attendancehashchain.service.authentication.signUp.SignUp;
+import com.ase.attendancehashchain.service.authentication.signUp.SignUpImp;
+import com.ase.attendancehashchain.util.validator.InputValidator;
+import com.ase.attendancehashchain.util.validator.InputValidatorImp;
 import com.google.firebase.auth.FirebaseAuth;
 
 /**

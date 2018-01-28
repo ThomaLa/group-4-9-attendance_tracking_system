@@ -1,10 +1,8 @@
-package com.ase.attendancehashchain.util;
+package com.ase.attendancehashchain.util.validator;
 
 import android.app.Activity;
 import android.text.TextUtils;
 import android.widget.Toast;
-
-import com.ase.attendancehashchain.ui.SignUpActivity;
 
 /**
  * Created by MarcoSalazar on 28/01/18.

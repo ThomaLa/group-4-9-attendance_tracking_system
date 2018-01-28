@@ -1,4 +1,4 @@
-package com.ase.attendancehashchain.util;
+package com.ase.attendancehashchain.util.validator;
 
 /**
  * Created by MarcoSalazar on 28/01/18.
