@@ -22,7 +22,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".ui.QRCodeActivity" />
         <activity
-            android:name=".ui.SignupActivity"
+            android:name=".ui.SignUpActivity"
             android:label="@string/title_activity_login">
         </activity>
         <activity
