@@ -10,6 +10,10 @@ import com.ase.attendancehashchain.service.qrcode.QRCodeGenerator;
 import com.ase.attendancehashchain.service.qrcode.imp.QRCodeGeneratorImp;
 import com.google.zxing.WriterException;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class QRCodeActivity extends AppCompatActivity {
 
     QRCodeGenerator qrCodeGenerator = new QRCodeGeneratorImp();
@@ -20,8 +24,22 @@ public class QRCodeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_qrcode);
         ImageView imageView = findViewById(R.id.myImage);
 
+        String username = getIntent().getStringExtra("username");
+        String weekOfYear = getIntent().getStringExtra("weekOfYear");
+        String tutorialGroup = getIntent().getStringExtra("tutorialGroup");
+
+        JSONObject attendanceCodeContent = new JSONObject();
+
         try {
-            Bitmap bitmap = qrCodeGenerator.encodeAsBitmap("Encoding a random string is working!");
+            attendanceCodeContent.put("username", username);
+            attendanceCodeContent.put("weekOfYear", weekOfYear);
+            attendanceCodeContent.put("tutorialGroup", tutorialGroup);
+        } catch (JSONException jEx) {
+            jEx.printStackTrace();
+        }
+
+        try {
+            Bitmap bitmap = qrCodeGenerator.encodeAsBitmap(attendanceCodeContent.toString());
             imageView.setImageBitmap(bitmap);
         } catch (WriterException e) {
             e.printStackTrace();

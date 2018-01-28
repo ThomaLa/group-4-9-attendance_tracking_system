@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.ase.attendancehashchain.R;
-import com.ase.attendancehashchain.service.authentication.login.Login;
 import com.ase.attendancehashchain.ui.LoginActivity;
 import com.ase.attendancehashchain.ui.MainActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -30,7 +29,7 @@ public class LoginImp implements Login {
     }
 
     @Override
-    public void signInWithEmailAndPassword(String email, final String password) {
+    public void signInWithEmailAndPassword(final String email, final String password) {
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(loginActivity, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -50,8 +49,9 @@ public class LoginImp implements Login {
                         Toast.makeText(loginActivity, loginActivity.getString(R.string.auth_failed), Toast.LENGTH_LONG).show();
                     }
                 } else {
-                    Intent intent = new Intent(loginActivity, MainActivity.class);
-                    loginActivity.startActivity(intent);
+                    Intent mainActivity = new Intent(loginActivity, MainActivity.class);
+                    mainActivity.putExtra("username", email);
+                    loginActivity.startActivity(mainActivity);
                     loginActivity.finish();
                 }
             }

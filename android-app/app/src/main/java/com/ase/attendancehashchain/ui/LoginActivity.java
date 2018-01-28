@@ -38,7 +38,9 @@ public class LoginActivity extends AppCompatActivity {
         inputValidator = new InputValidatorImp(this);
 
         if (auth.getCurrentUser() != null) {
-            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            Intent mainActivity = new Intent(LoginActivity.this, MainActivity.class);
+            mainActivity.putExtra("username", auth.getCurrentUser().getEmail());
+            startActivity(mainActivity);
             finish();
         }
 
