@@ -5,4 +5,5 @@ package com.ase.attendancehashchain.service.authentication;
  */
 
 public interface Login {
+    void signInWithEmailAndPassword(String email, String password);
 }
